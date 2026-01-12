@@ -1,5 +1,6 @@
 using System.Collections;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
+using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using UnityEngine;
 
@@ -9,11 +10,21 @@ namespace _Archero.Develop.Runtime
     {
         private ResourcesAssetsLoader _resourcesAssetsLoader;
         private ICoroutinesPerformer _coroutinesPerformer;
+        private ConfigsProviderService _configsProviderService;
 
         private void Awake()
         {
             _resourcesAssetsLoader = new ResourcesAssetsLoader();
             _coroutinesPerformer = CreateCoroutinesPerformer();
+            _configsProviderService = CreateConfigsProviderService();
+
+            _coroutinesPerformer.StartPerform(LoadConfigs());
+        }
+
+        private ConfigsProviderService CreateConfigsProviderService()
+        {
+            ResourcesConfigsLoader resourcesConfigsLoader = new ResourcesConfigsLoader(_resourcesAssetsLoader);
+            return new ConfigsProviderService(resourcesConfigsLoader);
         }
 
         private CoroutinesPerformer CreateCoroutinesPerformer()
@@ -27,14 +38,17 @@ namespace _Archero.Develop.Runtime
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
-                _coroutinesPerformer.StartPerform(TestCoroutine());
+            {
+                TestConfig config = _configsProviderService.GetConfig<TestConfig>();
+                Debug.Log("TestConfig: " + config.Damage);
+            }
         }
 
-        IEnumerator TestCoroutine()
+        IEnumerator LoadConfigs()
         {
-            Debug.Log("Start");
-            yield return new WaitForSeconds(1f);
-            Debug.Log("Continue");
+            Debug.Log("StartLoadConfigs");
+            yield return _configsProviderService.LoadAsync();
+            Debug.Log("EndLoadConfigs");
         }
     }
 }

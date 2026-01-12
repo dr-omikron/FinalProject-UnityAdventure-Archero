@@ -1,11 +1,26 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Utilities.ConfigsManagement
 {
     public class ConfigsProviderService
     {
         private readonly Dictionary<Type, object> _configs = new Dictionary<Type, object>();
+        private readonly IConfigsLoader[] _configsLoaders;
+
+        public ConfigsProviderService(params IConfigsLoader[] configsLoaders)
+        {
+            _configsLoaders = configsLoaders;
+        }
+
+        public IEnumerator LoadAsync()
+        {
+            foreach (var loader in _configsLoaders)
+                yield return loader.LoadAsync(loadedConfigs => _configs.AddRange(loadedConfigs));
+        }
 
         public T GetConfig<T>() where T : class
         {
