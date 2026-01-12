@@ -1,4 +1,5 @@
 using System.Collections;
+using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -8,38 +9,44 @@ namespace _Archero.Develop.Runtime
 {
     public class Test : MonoBehaviour
     {
-        private ResourcesAssetsLoader _resourcesAssetsLoader;
-        private ICoroutinesPerformer _coroutinesPerformer;
-        private ConfigsProviderService _configsProviderService;
+        private DIContainer _container;
 
         private void Awake()
         {
-            _resourcesAssetsLoader = new ResourcesAssetsLoader();
-            _coroutinesPerformer = CreateCoroutinesPerformer();
-            _configsProviderService = CreateConfigsProviderService();
+            _container = new DIContainer();
+            _container.RegisterAsSingle<ICoroutinesPerformer>(CreateCoroutinesPerformer);
+            _container.RegisterAsSingle(CreateConfigsProviderService);
+            _container.RegisterAsSingle(CreateResourcesAssetsLoader);
 
-            _coroutinesPerformer.StartPerform(LoadConfigs());
+            ICoroutinesPerformer coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
+            coroutinesPerformer.StartPerform(LoadConfigs());
         }
 
-        private ConfigsProviderService CreateConfigsProviderService()
+        private CoroutinesPerformer CreateCoroutinesPerformer(DIContainer c)
         {
-            ResourcesConfigsLoader resourcesConfigsLoader = new ResourcesConfigsLoader(_resourcesAssetsLoader);
-            return new ConfigsProviderService(resourcesConfigsLoader);
-        }
+            ResourcesAssetsLoader resourcesAssetsLoader = c.Resolve<ResourcesAssetsLoader>();
 
-        private CoroutinesPerformer CreateCoroutinesPerformer()
-        {
             CoroutinesPerformer coroutinesPerformerPrefab = 
-                _resourcesAssetsLoader.Load<CoroutinesPerformer>("Utilities/CoroutinesPerformer");
+                resourcesAssetsLoader.Load<CoroutinesPerformer>("Utilities/CoroutinesPerformer");
 
             return Instantiate(coroutinesPerformerPrefab);
         }
+
+        private ConfigsProviderService CreateConfigsProviderService(DIContainer c)
+        {
+            ResourcesAssetsLoader resourcesAssetsLoader = c.Resolve<ResourcesAssetsLoader>();
+            ResourcesConfigsLoader resourcesConfigsLoader = new ResourcesConfigsLoader(resourcesAssetsLoader);
+            return new ConfigsProviderService(resourcesConfigsLoader);
+        }
+
+        private ResourcesAssetsLoader CreateResourcesAssetsLoader(DIContainer c) => new ResourcesAssetsLoader();
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                TestConfig config = _configsProviderService.GetConfig<TestConfig>();
+                ConfigsProviderService configsProviderService = _container.Resolve<ConfigsProviderService>();
+                TestConfig config = configsProviderService.GetConfig<TestConfig>();
                 Debug.Log("TestConfig: " + config.Damage);
             }
         }
@@ -47,7 +54,8 @@ namespace _Archero.Develop.Runtime
         IEnumerator LoadConfigs()
         {
             Debug.Log("StartLoadConfigs");
-            yield return _configsProviderService.LoadAsync();
+            ConfigsProviderService configsProviderService = _container.Resolve<ConfigsProviderService>();
+            yield return configsProviderService.LoadAsync();
             Debug.Log("EndLoadConfigs");
         }
     }
