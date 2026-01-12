@@ -12,7 +12,7 @@ namespace _Archero.Develop.Runtime.Utilities.ConfigsManagement
 
         private readonly Dictionary<Type, string> _configsResourcesPaths = new Dictionary<Type, string>
         {
-            { typeof(TestConfig), "TestConfig" }
+            
         };
 
         public ResourcesConfigsLoader(ResourcesAssetsLoader resourcesAssetsLoader)
