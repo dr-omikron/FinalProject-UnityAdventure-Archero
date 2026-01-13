@@ -2,6 +2,7 @@
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
+using _Archero.Develop.Runtime.Utilities.SceneManagement;
 using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
@@ -13,6 +14,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle<ICoroutinesPerformer>(CreateCoroutinesPerformer);
             container.RegisterAsSingle(CreateConfigsProviderService);
             container.RegisterAsSingle(CreateResourcesAssetsLoader);
+            container.RegisterAsSingle(CreateSceneLoaderService);
         }
 
         private static CoroutinesPerformer CreateCoroutinesPerformer(DIContainer c)
@@ -33,5 +35,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
         }
 
         private static ResourcesAssetsLoader CreateResourcesAssetsLoader(DIContainer c) => new ResourcesAssetsLoader();
+
+        private static SceneLoaderService CreateSceneLoaderService(DIContainer c) => new SceneLoaderService();
     }
 }
