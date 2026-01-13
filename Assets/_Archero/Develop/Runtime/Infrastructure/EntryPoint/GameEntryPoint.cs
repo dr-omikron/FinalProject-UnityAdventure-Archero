@@ -3,6 +3,7 @@ using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.LoadingScreen;
+using _Archero.Develop.Runtime.Utilities.SceneManagement;
 using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
@@ -31,6 +32,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
         private IEnumerator Initialize(DIContainer container)
         {
             ILoadingScreen loadingScreen = container.Resolve<ILoadingScreen>();
+            SceneSwitcherService sceneSwitcherService = container.Resolve<SceneSwitcherService>();
             loadingScreen.Show();
             Debug.Log("Начинается инициализация сервисов");
 
@@ -39,8 +41,8 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
 
             Debug.Log("Завершается инициализация сервисов");
             loadingScreen.Hide();
-            
-            Debug.Log("Начинается переход на другую сцену");
+
+            yield return sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateResourcesAssetsLoader);
             container.RegisterAsSingle(CreateSceneLoaderService);
             container.RegisterAsSingle<ILoadingScreen>(CreateStandardLoadingScreen);
+            container.RegisterAsSingle(CreateSceneSwitcherService);
         }
 
         private static CoroutinesPerformer CreateCoroutinesPerformer(DIContainer c)
@@ -49,5 +50,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
         private static ResourcesAssetsLoader CreateResourcesAssetsLoader(DIContainer c) => new ResourcesAssetsLoader();
 
         private static SceneLoaderService CreateSceneLoaderService(DIContainer c) => new SceneLoaderService();
+        private static SceneSwitcherService CreateSceneSwitcherService(DIContainer c) 
+            => new SceneSwitcherService(c.Resolve<SceneLoaderService>(), c.Resolve<ILoadingScreen>(), c);
     }
 }
