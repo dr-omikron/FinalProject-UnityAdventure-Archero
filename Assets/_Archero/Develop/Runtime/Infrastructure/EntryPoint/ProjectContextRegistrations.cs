@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
 {
-    public class EntryPointRegistrations
+    public class ProjectContextRegistrations
     {
         public static void Process(DIContainer container)
         {

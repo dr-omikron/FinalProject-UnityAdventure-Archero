@@ -13,9 +13,14 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
     {
         private DIContainer _container;
 
-        public override IEnumerator Initialize(DIContainer container, IInputSceneArgs sceneArgs = null)
+        public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
             _container = container;
+            MainMenuContextRegistrations.Process(container);
+        }
+
+        public override IEnumerator Initialize()
+        {
             Debug.Log("MainMenu Scene Initialized");
             yield break;
         }

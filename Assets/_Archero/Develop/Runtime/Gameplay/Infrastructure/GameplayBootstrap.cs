@@ -11,15 +11,23 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
     public class GameplayBootstrap : SceneBootstrap
     {
         private DIContainer _container;
+        private GameplayInputArgs _inputArgs;
 
-        public override IEnumerator Initialize(DIContainer container, IInputSceneArgs sceneArgs)
+        public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
             _container = container;
 
             if (sceneArgs is not GameplayInputArgs gameplayInputArgs)
                 throw new ArgumentException($"{nameof(sceneArgs)} is not match with {typeof(GameplayInputArgs)} type");
 
-            Debug.Log("Loaded level number: " + gameplayInputArgs.LevelNumber);
+            _inputArgs = gameplayInputArgs;
+
+            GameplayContextRegistrations.Process(_container, gameplayInputArgs);
+        }
+
+        public override IEnumerator Initialize()
+        {
+            Debug.Log("Loaded level number: " + _inputArgs.LevelNumber);
             Debug.Log("Gameplay Scene Initialized");
             yield break;
         }

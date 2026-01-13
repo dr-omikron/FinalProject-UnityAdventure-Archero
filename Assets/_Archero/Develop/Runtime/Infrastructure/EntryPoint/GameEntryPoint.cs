@@ -17,10 +17,10 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
 
             Debug.Log("Процесс регистрации всего проекта");
 
-            DIContainer container = new DIContainer();
-            EntryPointRegistrations.Process(container);
+            DIContainer projectContainer = new DIContainer();
+            ProjectContextRegistrations.Process(projectContainer);
 
-            container.Resolve<ICoroutinesPerformer>().StartPerform(Initialize(container));
+            projectContainer.Resolve<ICoroutinesPerformer>().StartPerform(Initialize(projectContainer));
         }
 
         private void SetupAppSettings()
