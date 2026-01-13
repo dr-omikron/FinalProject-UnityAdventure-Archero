@@ -2,6 +2,7 @@
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
+using _Archero.Develop.Runtime.Utilities.LoadingScreen;
 using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
@@ -29,14 +30,15 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
 
         private IEnumerator Initialize(DIContainer container)
         {
-            Debug.Log("Открывается загрузочный экран");
+            ILoadingScreen loadingScreen = container.Resolve<ILoadingScreen>();
+            loadingScreen.Show();
             Debug.Log("Начинается инициализация сервисов");
 
             yield return container.Resolve<ConfigsProviderService>().LoadAsync();
             yield return new WaitForSeconds(1.0f);
 
             Debug.Log("Завершается инициализация сервисов");
-            Debug.Log("Закрывается загрузочный экран");
+            loadingScreen.Hide();
             
             Debug.Log("Начинается переход на другую сцену");
         }

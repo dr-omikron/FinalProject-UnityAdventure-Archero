@@ -2,6 +2,7 @@
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
+using _Archero.Develop.Runtime.Utilities.LoadingScreen;
 using _Archero.Develop.Runtime.Utilities.SceneManagement;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateConfigsProviderService);
             container.RegisterAsSingle(CreateResourcesAssetsLoader);
             container.RegisterAsSingle(CreateSceneLoaderService);
+            container.RegisterAsSingle<ILoadingScreen>(CreateStandardLoadingScreen);
         }
 
         private static CoroutinesPerformer CreateCoroutinesPerformer(DIContainer c)
@@ -25,6 +27,16 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
                 resourcesAssetsLoader.Load<CoroutinesPerformer>("Utilities/CoroutinesPerformer");
 
             return Object.Instantiate(coroutinesPerformerPrefab);
+        }
+
+        private static StandardLoadingScreen CreateStandardLoadingScreen(DIContainer c)
+        {
+            ResourcesAssetsLoader resourcesAssetsLoader = c.Resolve<ResourcesAssetsLoader>();
+
+            StandardLoadingScreen standardLoadingScreenPrefab = 
+                resourcesAssetsLoader.Load<StandardLoadingScreen>("Utilities/StandardLoadingScreen");
+
+            return Object.Instantiate(standardLoadingScreenPrefab);
         }
 
         private static ConfigsProviderService CreateConfigsProviderService(DIContainer c)
