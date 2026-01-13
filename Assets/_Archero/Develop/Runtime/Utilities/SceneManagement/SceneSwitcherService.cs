@@ -20,7 +20,7 @@ namespace _Archero.Develop.Runtime.Utilities.SceneManagement
             _container = container;
         }
 
-        public IEnumerator ProcessSwitchTo(string sceneName)
+        public IEnumerator ProcessSwitchTo(string sceneName, IInputSceneArgs sceneArgs = null)
         {
             _loadingScreen.Show();
 
@@ -32,7 +32,7 @@ namespace _Archero.Develop.Runtime.Utilities.SceneManagement
             if (sceneBootstrap == null)
                 throw new NullReferenceException(nameof(sceneBootstrap) + "not found");
 
-            yield return sceneBootstrap.Initialize(_container);
+            yield return sceneBootstrap.Initialize(_container, sceneArgs);
 
             _loadingScreen.Hide();
 

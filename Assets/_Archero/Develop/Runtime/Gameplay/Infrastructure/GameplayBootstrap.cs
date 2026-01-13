@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using _Archero.Develop.Runtime.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -11,9 +12,14 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
     {
         private DIContainer _container;
 
-        public override IEnumerator Initialize(DIContainer container)
+        public override IEnumerator Initialize(DIContainer container, IInputSceneArgs sceneArgs)
         {
             _container = container;
+
+            if (sceneArgs is not GameplayInputArgs gameplayInputArgs)
+                throw new ArgumentException($"{nameof(sceneArgs)} is not match with {typeof(GameplayInputArgs)} type");
+
+            Debug.Log("Loaded level number: " + gameplayInputArgs.LevelNumber);
             Debug.Log("Gameplay Scene Initialized");
             yield break;
         }

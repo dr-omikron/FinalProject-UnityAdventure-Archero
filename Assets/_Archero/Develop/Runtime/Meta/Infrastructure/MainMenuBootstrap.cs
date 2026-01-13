@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using _Archero.Develop.Runtime.Gameplay.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -12,7 +13,7 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
     {
         private DIContainer _container;
 
-        public override IEnumerator Initialize(DIContainer container)
+        public override IEnumerator Initialize(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
             _container = container;
             Debug.Log("MainMenu Scene Initialized");
@@ -30,7 +31,7 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
             {
                 SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
                 ICoroutinesPerformer coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
-                coroutinesPerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay));
+                coroutinesPerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(1)));
             }
         }
     }
