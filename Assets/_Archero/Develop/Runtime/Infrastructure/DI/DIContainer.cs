@@ -12,13 +12,15 @@ namespace _Archero.Develop.Runtime.Infrastructure.DI
         public DIContainer(DIContainer parent) => _parent = parent;
         public DIContainer() : this(null) { }
 
-        public void RegisterAsSingle<T>(Func<DIContainer, T> creator)
+        public IRegistrationOptions RegisterAsSingle<T>(Func<DIContainer, T> creator)
         {
             if(IsAlreadyRegistered<T>())
                 throw new InvalidOperationException($"Already registered {typeof(T)}");
 
             Registration registration = new Registration(container => creator.Invoke(container));
             _container.Add(typeof(T), registration);
+
+            return registration;
         }
 
         public bool IsAlreadyRegistered<T>()
@@ -53,6 +55,15 @@ namespace _Archero.Develop.Runtime.Infrastructure.DI
             }
 
             throw new InvalidOperationException($"Registration for {typeof(T)} not exists");
+        }
+
+        public void Initialize()
+        {
+            foreach (Registration registration in _container.Values)
+            {
+                if (registration.IsNonLazy)
+                    registration.GetInstanceFrom(this);
+            }
         }
     }
 }

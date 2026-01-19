@@ -34,6 +34,7 @@ namespace _Archero.Develop.Runtime.Utilities.SceneManagement
 
             DIContainer sceneContainer = new DIContainer(_projectContainer);
             sceneBootstrap.ProcessRegistration(sceneContainer, sceneArgs);
+            sceneContainer.Initialize();
 
             yield return sceneBootstrap.Initialize();
 

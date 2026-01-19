@@ -20,6 +20,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
 
             DIContainer projectContainer = new DIContainer();
             ProjectContextRegistrations.Process(projectContainer);
+            projectContainer.Initialize();
 
             projectContainer.Resolve<ICoroutinesPerformer>().StartPerform(Initialize(projectContainer));
         }
