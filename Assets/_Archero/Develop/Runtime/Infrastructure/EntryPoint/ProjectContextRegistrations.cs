@@ -6,6 +6,7 @@ using _Archero.Develop.Runtime.Utilities.AssetsManagement;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.DataManagement;
+using _Archero.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Archero.Develop.Runtime.Utilities.DataManagement.DataRepository;
 using _Archero.Develop.Runtime.Utilities.DataManagement.KeyStorage;
 using _Archero.Develop.Runtime.Utilities.DataManagement.Serializers;
@@ -29,6 +30,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle(CreateWalletService);
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
+            container.RegisterAsSingle(CreatePlayerDataProvider);
         }
 
         private static CoroutinesPerformer CreateCoroutinesPerformer(DIContainer c)
@@ -85,5 +87,8 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
 
             return new SaveLoadService(dataSerializer, dataKeysStorage, dataRepository);
         }
+
+        private static PlayerDataProvider CreatePlayerDataProvider(DIContainer c) 
+            => new PlayerDataProvider(c.Resolve<ISaveLoadService>());
     }
 }

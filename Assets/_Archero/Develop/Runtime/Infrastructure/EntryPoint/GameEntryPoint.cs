@@ -2,6 +2,7 @@
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
+using _Archero.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Archero.Develop.Runtime.Utilities.LoadingScreen;
 using _Archero.Develop.Runtime.Utilities.SceneManagement;
 using UnityEngine;
@@ -33,10 +34,21 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
         {
             ILoadingScreen loadingScreen = container.Resolve<ILoadingScreen>();
             SceneSwitcherService sceneSwitcherService = container.Resolve<SceneSwitcherService>();
+            PlayerDataProvider playerDataProvider = container.Resolve<PlayerDataProvider>();
+
             loadingScreen.Show();
             Debug.Log("Начинается инициализация сервисов");
 
             yield return container.Resolve<ConfigsProviderService>().LoadAsync();
+
+            bool isPlayerDataExist = false;
+            yield return playerDataProvider.Exists(result => isPlayerDataExist = result);
+
+            if (isPlayerDataExist)
+                yield return playerDataProvider.Load();
+            else
+                playerDataProvider.Reset();
+
             yield return new WaitForSeconds(1.0f);
 
             Debug.Log("Завершается инициализация сервисов");
