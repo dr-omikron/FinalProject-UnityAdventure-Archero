@@ -8,8 +8,8 @@ namespace _Archero.Develop.Runtime.Utilities.DataManagement.DataProviders
     {
         private readonly ISaveLoadService _saveLoadService;
 
-        private readonly List<IDataWriter<TData>> _dataWriters;
-        private readonly List<IDataReader<TData>> _dataReaders;
+        private readonly List<IDataWriter<TData>> _dataWriters = new List<IDataWriter<TData>>();
+        private readonly List<IDataReader<TData>> _dataReaders = new List<IDataReader<TData>>();
 
         private TData _data;
 

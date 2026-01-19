@@ -28,7 +28,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateSceneLoaderService);
             container.RegisterAsSingle<ILoadingScreen>(CreateStandardLoadingScreen);
             container.RegisterAsSingle(CreateSceneSwitcherService);
-            container.RegisterAsSingle(CreateWalletService);
+            container.RegisterAsSingle(CreateWalletService).NonLazy();
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
             container.RegisterAsSingle(CreatePlayerDataProvider);
         }
