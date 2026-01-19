@@ -89,6 +89,6 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
         }
 
         private static PlayerDataProvider CreatePlayerDataProvider(DIContainer c) 
-            => new PlayerDataProvider(c.Resolve<ISaveLoadService>());
+            => new PlayerDataProvider(c.Resolve<ISaveLoadService>(), c.Resolve<ConfigsProviderService>());
     }
 }
