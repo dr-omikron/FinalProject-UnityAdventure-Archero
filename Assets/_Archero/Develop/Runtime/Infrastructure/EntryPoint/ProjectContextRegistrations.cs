@@ -5,9 +5,14 @@ using _Archero.Develop.Runtime.Meta.Features.Wallet;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
+using _Archero.Develop.Runtime.Utilities.DataManagement;
+using _Archero.Develop.Runtime.Utilities.DataManagement.DataRepository;
+using _Archero.Develop.Runtime.Utilities.DataManagement.KeyStorage;
+using _Archero.Develop.Runtime.Utilities.DataManagement.Serializers;
 using _Archero.Develop.Runtime.Utilities.LoadingScreen;
 using _Archero.Develop.Runtime.Utilities.Reactive;
 using _Archero.Develop.Runtime.Utilities.SceneManagement;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
@@ -23,6 +28,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle<ILoadingScreen>(CreateStandardLoadingScreen);
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle(CreateWalletService);
+            container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
         }
 
         private static CoroutinesPerformer CreateCoroutinesPerformer(DIContainer c)
@@ -67,6 +73,17 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
                 currencies[currencyType] = new ReactiveVariable<int>();
 
             return new WalletService(currencies);
+        }
+
+        private static SaveLoadService CreateSaveLoadService(DIContainer c)
+        {
+            IDataSerializer dataSerializer = new JsonSerializer();
+            IDataKeysStorage dataKeysStorage = new MapDataKeysStorage();
+
+            string saveFolderPath = Application.isEditor ? Application.dataPath : Application.persistentDataPath;
+            IDataRepository dataRepository = new LocalFileDataRepository(saveFolderPath, "json");
+
+            return new SaveLoadService(dataSerializer, dataKeysStorage, dataRepository);
         }
     }
 }
