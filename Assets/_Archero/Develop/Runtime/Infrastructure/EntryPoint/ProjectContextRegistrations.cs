@@ -1,10 +1,14 @@
-﻿using _Archero.Develop.Runtime.Infrastructure.DI;
+﻿using System;
+using System.Collections.Generic;
+using _Archero.Develop.Runtime.Infrastructure.DI;
+using _Archero.Develop.Runtime.Meta.Features.Wallet;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.LoadingScreen;
+using _Archero.Develop.Runtime.Utilities.Reactive;
 using _Archero.Develop.Runtime.Utilities.SceneManagement;
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
 {
@@ -18,6 +22,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateSceneLoaderService);
             container.RegisterAsSingle<ILoadingScreen>(CreateStandardLoadingScreen);
             container.RegisterAsSingle(CreateSceneSwitcherService);
+            container.RegisterAsSingle(CreateWalletService);
         }
 
         private static CoroutinesPerformer CreateCoroutinesPerformer(DIContainer c)
@@ -52,5 +57,16 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
         private static SceneLoaderService CreateSceneLoaderService(DIContainer c) => new SceneLoaderService();
         private static SceneSwitcherService CreateSceneSwitcherService(DIContainer c) 
             => new SceneSwitcherService(c.Resolve<SceneLoaderService>(), c.Resolve<ILoadingScreen>(), c);
+
+        private static WalletService CreateWalletService(DIContainer c)
+        {
+            Dictionary<CurrencyType, ReactiveVariable<int>> currencies =
+                new Dictionary<CurrencyType, ReactiveVariable<int>>();
+
+            foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
+                currencies[currencyType] = new ReactiveVariable<int>();
+
+            return new WalletService(currencies);
+        }
     }
 }
