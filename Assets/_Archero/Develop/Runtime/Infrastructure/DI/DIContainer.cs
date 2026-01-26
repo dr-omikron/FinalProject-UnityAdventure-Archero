@@ -63,7 +63,15 @@ namespace _Archero.Develop.Runtime.Infrastructure.DI
             {
                 if (registration.IsNonLazy)
                     registration.GetInstanceFrom(this);
+
+                registration.OnInitialize();
             }
+        }
+
+        public void Dispose()
+        {
+            foreach (Registration registration in _container.Values)
+                registration.OnDispose();
         }
     }
 }
