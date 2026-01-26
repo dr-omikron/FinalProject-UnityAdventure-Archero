@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Meta.Features.Wallet;
+using _Archero.Develop.Runtime.UI;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -31,6 +32,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateWalletService).NonLazy();
             container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
             container.RegisterAsSingle(CreatePlayerDataProvider);
+            container.RegisterAsSingle(CreateProjectPresenterFactory);
         }
 
         private static CoroutinesPerformer CreateCoroutinesPerformer(DIContainer c)
@@ -90,5 +92,8 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
 
         private static PlayerDataProvider CreatePlayerDataProvider(DIContainer c) 
             => new PlayerDataProvider(c.Resolve<ISaveLoadService>(), c.Resolve<ConfigsProviderService>());
+
+        private static ProjectPresenterFactory CreateProjectPresenterFactory(DIContainer c)
+            => new ProjectPresenterFactory(c);
     }
 }
