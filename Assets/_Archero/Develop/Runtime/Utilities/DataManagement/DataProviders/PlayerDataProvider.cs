@@ -21,7 +21,8 @@ namespace _Archero.Develop.Runtime.Utilities.DataManagement.DataProviders
         {
             return new PlayerData
             {
-                WalletData = InitWalletData()
+                WalletData = InitWalletData(),
+                CompletedLevels = new List<int>()
             };
         }
 

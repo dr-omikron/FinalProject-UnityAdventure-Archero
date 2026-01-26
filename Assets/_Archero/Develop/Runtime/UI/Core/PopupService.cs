@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Archero.Develop.Runtime.UI.Core.TestPopup;
+using _Archero.Develop.Runtime.UI.LevelMenuPopup;
 using UnityEngine;
 
 namespace _Archero.Develop.Runtime.UI.Core
@@ -29,6 +30,16 @@ namespace _Archero.Develop.Runtime.UI.Core
             return popup;
         }
 
+        public LevelsMenuPopupPresenter OpenLevelsMenuPopup()
+        {
+            LevelsMenuPopupView view = ViewsFactory.Create<LevelsMenuPopupView>(ViewIDs.LevelsMenuPopup, PopupLayer);
+            LevelsMenuPopupPresenter popup = _presentersFactory.CreateLevelsMenuPresenter(view);
+
+            OnPopupCreated(popup, view);
+
+            return popup;
+        }
+
         public void ClosePopup(PopupPresenterBase popup)
         {
             popup.CloseRequest -= ClosePopup;
@@ -52,7 +63,7 @@ namespace _Archero.Develop.Runtime.UI.Core
             _presenterToInfo.Clear();
         }
 
-        protected void OnPopupCreated(TestPopupPresenter popup, TestPopupView view, Action closedCallback = null)
+        protected void OnPopupCreated(PopupPresenterBase popup, PopupViewBase view, Action closedCallback = null)
         {
             PopupInfo popupInfo = new PopupInfo(view, closedCallback);
             

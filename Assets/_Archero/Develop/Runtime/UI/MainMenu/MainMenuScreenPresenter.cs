@@ -24,7 +24,7 @@ namespace _Archero.Develop.Runtime.UI.MainMenu
 
         public void Initialize()
         {
-            _mainMenuScreenView.OpenTestPopupButtonClicked += OnOpenTestPopupButtonClicked;
+            _mainMenuScreenView.OpenLevelsMenuButtonClicked += OnOpenLevelsMenuButtonClicked;
             
             CreateWallet();
 
@@ -34,7 +34,7 @@ namespace _Archero.Develop.Runtime.UI.MainMenu
 
         public void Dispose()
         {
-            _mainMenuScreenView.OpenTestPopupButtonClicked -= OnOpenTestPopupButtonClicked;
+            _mainMenuScreenView.OpenLevelsMenuButtonClicked -= OnOpenLevelsMenuButtonClicked;
 
             foreach (IPresenter childPresenter in _childPresenters)
                 childPresenter.Dispose();
@@ -48,9 +48,9 @@ namespace _Archero.Develop.Runtime.UI.MainMenu
             _childPresenters.Add(walletPresenter);
         }
 
-        private void OnOpenTestPopupButtonClicked()
+        private void OnOpenLevelsMenuButtonClicked()
         {
-            _mainMenuPopupService.OpenTestPopup();
+            _mainMenuPopupService.OpenLevelsMenuPopup();
         }
     }
 }

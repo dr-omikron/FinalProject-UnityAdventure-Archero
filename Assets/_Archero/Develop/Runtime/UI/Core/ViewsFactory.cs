@@ -14,7 +14,9 @@ namespace _Archero.Develop.Runtime.UI.Core
         {
             { ViewIDs.CurrencyView, "UI/Wallet/CurrencyView" },
             { ViewIDs.MainMenuScreen, "UI/MainMenu/MainMenuScreenView" },
-            { ViewIDs.TestPopup, "UI/TestPopup" }
+            { ViewIDs.TestPopup, "UI/TestPopup" },
+            { ViewIDs.LevelsMenuPopup, "UI/LevelsMenuPopup/LevelsMenuPopup" },
+            { ViewIDs.LevelsTile, "UI/LevelsMenuPopup/LevelTile" }
         };
 
         public ViewsFactory(ResourcesAssetsLoader resourcesAssetsLoader)
