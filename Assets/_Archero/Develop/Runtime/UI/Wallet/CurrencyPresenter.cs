@@ -24,6 +24,8 @@ namespace _Archero.Develop.Runtime.UI.Wallet
             _view = view;
         }
 
+        public IconTextView View => _view;
+
         public void Enable()
         {
             UpdateValue(_currency.Value);
