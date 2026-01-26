@@ -38,9 +38,9 @@ namespace _Archero.Develop.Runtime.UI.LevelMenuPopup
         public Tween Show()
         {
             transform.DOKill();
-            
+
             return transform
-                .DOScale(1f, 0.5f)
+                .DOScale(1f, 0.1f)
                 .From(0)
                 .SetUpdate(true)
                 .Play();

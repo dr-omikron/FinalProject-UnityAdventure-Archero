@@ -11,12 +11,15 @@ namespace _Archero.Develop.Runtime.UI.Core
 
         [SerializeField] private CanvasGroup _mainGroup;
         [SerializeField] private Image _antiClicker;
-        [SerializeField] private Transform _body;
+        [SerializeField] private CanvasGroup _body;
+        [SerializeField] private PopupAnimationType _animationType;
 
         private Tween _currentAnimation;
+        private float _antiClickerDefaultAlpha;
 
         private void Awake()
         {
+            _antiClickerDefaultAlpha = _antiClicker.color.a;
             _mainGroup.alpha = 0;
         }
 
@@ -30,16 +33,11 @@ namespace _Archero.Develop.Runtime.UI.Core
 
             _mainGroup.alpha = 1;
 
-            Sequence sequence = DOTween.Sequence();
-
-            sequence
-                .Append(_antiClicker
-                    .DOFade(0.75f, 0.2f)
-                    .From(0))
-                .Join(_body
-                    .DOScale(1, 0.5f)
-                    .From(0)
-                    .SetEase(Ease.OutBack));
+            Sequence sequence = PopupAnimationCreator.CreateShowAnimation(
+                _body, 
+                _antiClicker, 
+                _animationType, 
+                _antiClickerDefaultAlpha);
 
             ModifyShowAnimation(sequence);
             sequence.OnComplete(OnPostShow);
@@ -53,7 +51,10 @@ namespace _Archero.Develop.Runtime.UI.Core
 
             OnPreHide();
 
-            Sequence sequence = DOTween.Sequence();
+            Sequence sequence = PopupAnimationCreator.CreateHideAnimation(_body, 
+                _antiClicker, 
+                _animationType, 
+                _antiClickerDefaultAlpha);
 
             ModifyHideAnimation(sequence);
             sequence.OnComplete(OnPostHide);
