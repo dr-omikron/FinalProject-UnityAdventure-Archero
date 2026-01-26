@@ -2,11 +2,12 @@
 using _Archero.Develop.Runtime.Configs.Meta.Wallet;
 using _Archero.Develop.Runtime.Meta.Features.Wallet;
 using _Archero.Develop.Runtime.UI.CommonViews;
+using _Archero.Develop.Runtime.UI.Core;
 using _Archero.Develop.Runtime.Utilities.Reactive;
 
 namespace _Archero.Develop.Runtime.UI.Wallet
 {
-    public class CurrencyPresenter
+    public class CurrencyPresenter : IPresenter
     {
         private readonly IReadOnlyVariable<int> _currency;
         private readonly CurrencyType _currencyType;
@@ -26,7 +27,7 @@ namespace _Archero.Develop.Runtime.UI.Wallet
 
         public IconTextView View => _view;
 
-        public void Enable()
+        public void Initialize()
         {
             UpdateValue(_currency.Value);
             _view.SetIcon(_currencyIconsConfig.GetSpriteFor(_currencyType));
@@ -34,7 +35,7 @@ namespace _Archero.Develop.Runtime.UI.Wallet
             _subscription = _currency.Subscribe(OnCurrencyChanged);
         }
 
-        public void Disable()
+        public void Dispose()
         {
             _subscription.Dispose();
         }

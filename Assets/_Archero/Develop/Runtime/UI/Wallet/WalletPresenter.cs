@@ -5,7 +5,7 @@ using _Archero.Develop.Runtime.UI.Core;
 
 namespace _Archero.Develop.Runtime.UI.Wallet
 {
-    public class WalletPresenter
+    public class WalletPresenter : IPresenter
     {
         private readonly WalletService _walletService;
         private readonly ProjectPresenterFactory _presenterFactory;
@@ -26,7 +26,7 @@ namespace _Archero.Develop.Runtime.UI.Wallet
             _iconTextListView = iconTextListView;
         }
 
-        public void Enable()
+        public void Initialize()
         {
             foreach (CurrencyType currencyType in _walletService.AvailableCurrencies)
             {
@@ -38,18 +38,18 @@ namespace _Archero.Develop.Runtime.UI.Wallet
                     _walletService.GetCurrency(currencyType), 
                     currencyType);
 
-                currencyPresenter.Enable();
+                currencyPresenter.Initialize();
                 _currencyPresenters.Add(currencyPresenter);
             }
         }
 
-        public void Disable()
+        public void Dispose()
         {
             foreach (CurrencyPresenter presenter in _currencyPresenters)
             {
                 _iconTextListView.Remove(presenter.View);
                 _viewsFactory.Release(presenter.View);
-                presenter.Disable();
+                presenter.Dispose();
             }
 
             _currencyPresenters.Clear();
