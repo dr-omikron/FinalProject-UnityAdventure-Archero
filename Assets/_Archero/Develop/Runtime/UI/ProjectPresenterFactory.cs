@@ -6,6 +6,7 @@ using _Archero.Develop.Runtime.UI.Core;
 using _Archero.Develop.Runtime.UI.Core.TestPopup;
 using _Archero.Develop.Runtime.UI.Wallet;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
+using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.Reactive;
 
 namespace _Archero.Develop.Runtime.UI
@@ -40,6 +41,9 @@ namespace _Archero.Develop.Runtime.UI
                 views);
         }
 
-        public TestPopupPresenter CreateTestPopupPresenter(TestPopupView view) => new TestPopupPresenter(view);
+        public TestPopupPresenter CreateTestPopupPresenter(TestPopupView view)
+        {
+            return new TestPopupPresenter(view, _container.Resolve<ICoroutinesPerformer>());
+        }
     }
 }
