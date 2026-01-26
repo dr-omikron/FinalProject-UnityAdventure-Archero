@@ -5,6 +5,7 @@ using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Meta.Features.Wallet;
 using _Archero.Develop.Runtime.UI;
 using _Archero.Develop.Runtime.UI.CommonViews;
+using _Archero.Develop.Runtime.UI.Core;
 using _Archero.Develop.Runtime.UI.Wallet;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.DataManagement.DataProviders;
@@ -20,8 +21,10 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
         private PlayerDataProvider _playerDataProvider;
         private ICoroutinesPerformer _coroutinesPerformer;
 
-        [SerializeField] private IconTextView _currencyView;
+        [SerializeField] private Transform _viewsParent;
+        private IconTextView _currencyView;
         private ProjectPresenterFactory _presenterFactory;
+        private ViewsFactory _viewsFactory;
         private CurrencyPresenter _currencyPresenter;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
@@ -38,6 +41,7 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
             _playerDataProvider = _container.Resolve<PlayerDataProvider>();
             _coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
             _presenterFactory = _container.Resolve<ProjectPresenterFactory>();
+            _viewsFactory = _container.Resolve<ViewsFactory>();
 
             yield break;
         }
@@ -80,6 +84,11 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
             {
                 _currencyPresenter?.Disable();
 
+                if(_currencyView != null)
+                    _viewsFactory.Release(_currencyView);
+
+                _currencyView = _viewsFactory.Create<IconTextView>(ViewIDs.CurrencyView, _viewsParent);
+
                 _currencyPresenter = _presenterFactory.CreateCurrencyPresenter(
                     _currencyView, 
                     _walletService.GetCurrency(CurrencyType.Gold), 
@@ -91,6 +100,11 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
             if (Input.GetKeyDown(KeyCode.D))
             {
                 _currencyPresenter?.Disable();
+
+                if(_currencyView != null)
+                    _viewsFactory.Release(_currencyView);
+
+                _currencyView = _viewsFactory.Create<IconTextView>(ViewIDs.CurrencyView, _viewsParent);
 
                 _currencyPresenter = _presenterFactory.CreateCurrencyPresenter(
                     _currencyView, 
