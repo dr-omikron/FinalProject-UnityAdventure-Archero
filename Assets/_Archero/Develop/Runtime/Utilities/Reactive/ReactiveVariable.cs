@@ -33,8 +33,8 @@ namespace _Archero.Develop.Runtime.Utilities.Reactive
             return subscriber;
         }
 
-        private void Remove(Subscriber<T, T> subscriber) => _toRemove.Remove(subscriber);
-        
+        private void Remove(Subscriber<T, T> subscriber) => _toRemove.Add(subscriber);
+
         private void Invoke(T oldValue, T newValue)
         {
             if (_toAdd.Count > 0)

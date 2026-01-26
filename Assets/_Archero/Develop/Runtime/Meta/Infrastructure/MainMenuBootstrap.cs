@@ -4,6 +4,9 @@ using _Archero.Develop.Runtime.Gameplay.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Meta.Features.Wallet;
+using _Archero.Develop.Runtime.UI;
+using _Archero.Develop.Runtime.UI.CommonViews;
+using _Archero.Develop.Runtime.UI.Wallet;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.DataManagement.DataProviders;
 using _Archero.Develop.Runtime.Utilities.SceneManagement;
@@ -18,6 +21,10 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
         private PlayerDataProvider _playerDataProvider;
         private ICoroutinesPerformer _coroutinesPerformer;
 
+        [SerializeField] private IconTextView _currencyView;
+        private ProjectPresenterFactory _presenterFactory;
+        private CurrencyPresenter _currencyPresenter;
+
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
             _container = container;
@@ -31,6 +38,7 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
             _walletService = _container.Resolve<WalletService>();
             _playerDataProvider = _container.Resolve<PlayerDataProvider>();
             _coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
+            _presenterFactory = _container.Resolve<ProjectPresenterFactory>();
 
             yield break;
         }
@@ -67,6 +75,30 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
             {
                 _coroutinesPerformer.StartPerform(_playerDataProvider.Save());
                 Debug.Log("Сохранение было вызвано");
+            }
+
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                _currencyPresenter?.Disable();
+
+                _currencyPresenter = _presenterFactory.CreateCurrencyPresenter(
+                    _currencyView, 
+                    _walletService.GetCurrency(CurrencyType.Gold), 
+                    CurrencyType.Gold);
+
+                _currencyPresenter.Enable();
+            }
+
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                _currencyPresenter?.Disable();
+
+                _currencyPresenter = _presenterFactory.CreateCurrencyPresenter(
+                    _currencyView, 
+                    _walletService.GetCurrency(CurrencyType.Diamond), 
+                    CurrencyType.Diamond);
+
+                _currencyPresenter.Enable();
             }
         }
     }
