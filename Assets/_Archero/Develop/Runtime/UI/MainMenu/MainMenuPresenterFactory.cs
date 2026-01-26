@@ -15,7 +15,8 @@ namespace _Archero.Develop.Runtime.UI.MainMenu
         {
             return new MainMenuScreenPresenter(
                 view,
-                _container.Resolve<ProjectPresenterFactory>());
+                _container.Resolve<ProjectPresenterFactory>(),
+                _container.Resolve<MainMenuPopupService>());
         }
 
     }

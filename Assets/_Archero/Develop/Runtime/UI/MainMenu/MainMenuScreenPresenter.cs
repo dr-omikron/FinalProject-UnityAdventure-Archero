@@ -8,17 +8,24 @@ namespace _Archero.Develop.Runtime.UI.MainMenu
     {
         private readonly MainMenuScreenView _mainMenuScreenView;
         private readonly ProjectPresenterFactory _projectPresenterFactory;
+        private readonly MainMenuPopupService _mainMenuPopupService;
         
         private readonly List<IPresenter> _childPresenters = new List<IPresenter>();
 
-        public MainMenuScreenPresenter(MainMenuScreenView mainMenuScreenView, ProjectPresenterFactory projectPresenterFactory)
+        public MainMenuScreenPresenter(
+            MainMenuScreenView mainMenuScreenView, 
+            ProjectPresenterFactory projectPresenterFactory, 
+            MainMenuPopupService mainMenuPopupService)
         {
             _mainMenuScreenView = mainMenuScreenView;
             _projectPresenterFactory = projectPresenterFactory;
+            _mainMenuPopupService = mainMenuPopupService;
         }
 
         public void Initialize()
         {
+            _mainMenuScreenView.OpenTestPopupButtonClicked += OnOpenTestPopupButtonClicked;
+            
             CreateWallet();
 
             foreach (IPresenter childPresenter in _childPresenters)
@@ -27,6 +34,8 @@ namespace _Archero.Develop.Runtime.UI.MainMenu
 
         public void Dispose()
         {
+            _mainMenuScreenView.OpenTestPopupButtonClicked -= OnOpenTestPopupButtonClicked;
+
             foreach (IPresenter childPresenter in _childPresenters)
                 childPresenter.Dispose();
 
@@ -37,6 +46,11 @@ namespace _Archero.Develop.Runtime.UI.MainMenu
         {
             WalletPresenter walletPresenter = _projectPresenterFactory.CreateWalletPresenter(_mainMenuScreenView.WalletView);
             _childPresenters.Add(walletPresenter);
+        }
+
+        private void OnOpenTestPopupButtonClicked()
+        {
+            _mainMenuPopupService.OpenTestPopup();
         }
     }
 }

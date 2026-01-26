@@ -1,4 +1,5 @@
 ﻿using _Archero.Develop.Runtime.Infrastructure.DI;
+using _Archero.Develop.Runtime.UI;
 using _Archero.Develop.Runtime.UI.Core;
 using _Archero.Develop.Runtime.UI.MainMenu;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
@@ -12,6 +13,7 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
         {
             container.RegisterAsSingle(CreateMainMenuUIRoot).NonLazy();
             container.RegisterAsSingle(CreateMainMenuPresenterFactory);
+            container.RegisterAsSingle(CreateMainMenuPopupService);
             container.RegisterAsSingle(CreateMainMenuScreenPresenter).NonLazy();
         }
 
@@ -27,7 +29,7 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
 
         private static MainMenuPresenterFactory CreateMainMenuPresenterFactory(DIContainer c) 
             => new MainMenuPresenterFactory(c);
-        
+
         private static MainMenuScreenPresenter CreateMainMenuScreenPresenter(DIContainer c)
         {
             MainMenuUIRoot uiRoot = c.Resolve<MainMenuUIRoot>();
@@ -36,6 +38,14 @@ namespace _Archero.Develop.Runtime.Meta.Infrastructure
                 .Create<MainMenuScreenView>(ViewIDs.MainMenuScreen, uiRoot.HUDLayer);
 
             return c.Resolve<MainMenuPresenterFactory>().CreateMainMenuScreen(view);
+        }
+
+        private static MainMenuPopupService CreateMainMenuPopupService(DIContainer c)
+        {
+            return new MainMenuPopupService(
+                c.Resolve<ViewsFactory>(),
+                c.Resolve<ProjectPresenterFactory>(),
+                c.Resolve<MainMenuUIRoot>());
         }
     }
 }

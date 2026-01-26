@@ -3,6 +3,7 @@ using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Meta.Features.Wallet;
 using _Archero.Develop.Runtime.UI.CommonViews;
 using _Archero.Develop.Runtime.UI.Core;
+using _Archero.Develop.Runtime.UI.Core.TestPopup;
 using _Archero.Develop.Runtime.UI.Wallet;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.Reactive;
@@ -38,5 +39,7 @@ namespace _Archero.Develop.Runtime.UI
                 _container.Resolve<ViewsFactory>(),
                 views);
         }
+
+        public TestPopupPresenter CreateTestPopupPresenter(TestPopupView view) => new TestPopupPresenter(view);
     }
 }
