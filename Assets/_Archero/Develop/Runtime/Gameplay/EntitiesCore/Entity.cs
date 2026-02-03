@@ -7,9 +7,10 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
     {
         private readonly Dictionary<Type, IEntityComponent> _components = new Dictionary<Type, IEntityComponent>();
 
-        public void AddComponent<TComponent>(TComponent component) where TComponent : class, IEntityComponent
+        public Entity AddComponent<TComponent>(TComponent component) where TComponent : class, IEntityComponent
         {
             _components.Add(typeof(TComponent), component);
+            return this;
         }
 
         public bool HasComponent<TComponent>() where TComponent : class, IEntityComponent
