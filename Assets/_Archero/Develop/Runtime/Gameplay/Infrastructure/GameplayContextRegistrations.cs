@@ -1,5 +1,5 @@
-﻿using _Archero.Develop.Runtime.Infrastructure.DI;
-using UnityEngine;
+﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+using _Archero.Develop.Runtime.Infrastructure.DI;
 
 namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
 {
@@ -7,7 +7,14 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
     {
         public static void Process(DIContainer container, GameplayInputArgs args)
         {
-            Debug.Log("Gameplay Context Registrations");
+            container.RegisterAsSingle(CreateEntitiesFactory);
+            container.RegisterAsSingle(CreateEntitiesLifeContext);
         }
+
+        private static EntitiesLifeContext CreateEntitiesLifeContext(DIContainer c)
+            => new EntitiesLifeContext();
+
+        private static EntitiesFactory CreateEntitiesFactory(DIContainer c)
+            => new EntitiesFactory(c);
     }
 }

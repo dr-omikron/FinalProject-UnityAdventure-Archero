@@ -1,11 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 
 namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 {
-    public class Entity
+    public class Entity : IDisposable
     {
         private readonly Dictionary<Type, IEntityComponent> _components = new Dictionary<Type, IEntityComponent>();
+        private readonly List<IEntitySystem> _systems = new List<IEntitySystem>();
+
+        private readonly List<IInitializableSystem> _initializable = new List<IInitializableSystem>();
+        private readonly List<IUpdateableSystem> _updateable = new List<IUpdateableSystem>();
+        private readonly List<IDisposableSystem> _disposable = new List<IDisposableSystem>();
+
+        private bool _isInit;
+
+        public void Initialize()
+        {
+            foreach (IInitializableSystem initializable in _initializable)
+                initializable.OnInit(this);
+
+            _isInit = true;
+        }
+
+        public void OnUpdate(float deltaTime)
+        {
+            if(_isInit == false)
+                return;
+
+            foreach (IUpdateableSystem updatable in _updateable)
+                updatable.OnUpdate(deltaTime);
+        }
+
+        public void Dispose()
+        {
+            foreach (IDisposableSystem disposable in _disposable)
+                disposable.OnDispose();
+
+            _isInit = false;
+        }
 
         public Entity AddComponent<TComponent>(TComponent component) where TComponent : class, IEntityComponent
         {
@@ -34,6 +67,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 throw new ArgumentException($"Entity not exist {typeof(TComponent)}");
 
             return component;
+        }
+
+        public Entity AddSystem(IEntitySystem system)
+        {
+            if(_systems.Contains(system))
+                throw new ArgumentException($"Entity system already exist {system.GetType()}");
+
+            _systems.Add(system);
+
+            if(system is IInitializableSystem initializable)
+            {
+                _initializable.Add(initializable);
+
+                if (_isInit)
+                    initializable.OnInit(this);
+            }
+
+            if(system is IUpdateableSystem updateable)
+                _updateable.Add(updateable);
+
+            if(system is IDisposableSystem disposable)
+                _disposable.Add(disposable);
+
+            return this;
         }
     }
 }

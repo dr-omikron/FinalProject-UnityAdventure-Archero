@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
 using _Archero.Develop.Runtime.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -14,6 +15,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
         private GameplayInputArgs _inputArgs;
         
         [SerializeField] private TestGameplay _testGameplay;
+        private EntitiesLifeContext _entitiesLifeContext;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -32,6 +34,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
             Debug.Log("Loaded level number: " + _inputArgs.LevelNumber);
             Debug.Log("Gameplay Scene Initialized");
 
+            _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _testGameplay.Initialize(_container);
 
             yield break;
@@ -46,6 +49,8 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
 
         private void Update()
         {
+            _entitiesLifeContext?.Update(Time.deltaTime);
+
             if (Input.GetKeyDown(KeyCode.F))
             {
                 SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
