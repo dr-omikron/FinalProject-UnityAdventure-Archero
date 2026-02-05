@@ -4,7 +4,7 @@ using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 
 namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 {
-    public class Entity : IDisposable
+    public partial class Entity : IDisposable
     {
         private readonly Dictionary<Type, IEntityComponent> _components = new Dictionary<Type, IEntityComponent>();
         private readonly List<IEntitySystem> _systems = new List<IEntitySystem>();

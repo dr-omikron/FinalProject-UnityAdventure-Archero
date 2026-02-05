@@ -1,5 +1,7 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using _Archero.Develop.Runtime.Infrastructure.DI;
+using _Archero.Develop.Runtime.Utilities.AssetsManagement;
 
 namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
 {
@@ -9,6 +11,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
         {
             container.RegisterAsSingle(CreateEntitiesFactory);
             container.RegisterAsSingle(CreateEntitiesLifeContext);
+            container.RegisterAsSingle(CreateMonoEntityFactory).NonLazy();
         }
 
         private static EntitiesLifeContext CreateEntitiesLifeContext(DIContainer c)
@@ -16,5 +19,13 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
 
         private static EntitiesFactory CreateEntitiesFactory(DIContainer c)
             => new EntitiesFactory(c);
+
+        private static MonoEntityFactory CreateMonoEntityFactory(DIContainer c)
+        {
+            ResourcesAssetsLoader resourcesAssetsLoader = c.Resolve<ResourcesAssetsLoader>();
+            EntitiesLifeContext entitiesLifeContext = c.Resolve<EntitiesLifeContext>();
+
+            return new MonoEntityFactory(resourcesAssetsLoader, entitiesLifeContext);
+        }
     }
 }

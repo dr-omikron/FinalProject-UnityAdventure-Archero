@@ -13,9 +13,4 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.MovementFeature
     {
         public ReactiveVariable<float> Value;
     }
-
-    public class RigidbodyComponent : IEntityComponent
-    {
-        public Rigidbody Value;
-    }
 }

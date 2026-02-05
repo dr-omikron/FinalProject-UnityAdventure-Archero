@@ -5,22 +5,23 @@ using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Gameplay.Features.MovementFeature
 {
-    public class MovementSystem : IInitializableSystem, IUpdateableSystem
+    public class RigidbodyMovementSystem : IInitializableSystem, IUpdateableSystem
     {
         private ReactiveVariable<Vector3> _moveDirection;
         private ReactiveVariable<float> _moveSpeed;
+        private Rigidbody _rigidbody;
 
         public void OnInit(Entity entity)
         {
-            _moveDirection = entity.GetComponent<MoveDirection>().Value;
-            _moveSpeed = entity.GetComponent<MoveSpeed>().Value;
+            _moveDirection = entity.MoveDirection;
+            _moveSpeed = entity.MoveSpeed;
+            _rigidbody = entity.Rigidbody;
         }
 
         public void OnUpdate(float deltaTime)
         {
             Vector3 velocity = _moveDirection.Value.normalized * _moveSpeed.Value;
-
-            Debug.Log("Speed: " + velocity);
+            _rigidbody.velocity = velocity;
         }
     }
 }

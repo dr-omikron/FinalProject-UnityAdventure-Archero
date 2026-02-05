@@ -1,4 +1,5 @@
-﻿using _Archero.Develop.Runtime.Gameplay.Features.MovementFeature;
+﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using _Archero.Develop.Runtime.Gameplay.Features.MovementFeature;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
@@ -9,28 +10,32 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
     {
         private readonly DIContainer _container;
         private readonly EntitiesLifeContext _entitiesLifeContext;
+        private readonly MonoEntityFactory _monoEntityFactory;
 
         public EntitiesFactory(DIContainer container)
         {
             _container = container;
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
+            _monoEntityFactory = _container.Resolve<MonoEntityFactory>();
         }
 
-        public Entity CreateEntity()
+        public Entity CreateEntity(Vector3 position)
         {
             Entity entity = CreateEmpty();
 
-            entity
-                .AddComponent(new MoveDirection { Value = new ReactiveVariable<Vector3>(Vector3.forward) })
-                .AddComponent(new MoveSpeed { Value = new ReactiveVariable<float>(10) });
+            _monoEntityFactory.Create(entity, position, "Entities/TestEntity");
 
-            entity.AddSystem(new MovementSystem());
+            entity
+                .AddMoveDirection()
+                .AddMoveSpeed(new ReactiveVariable<float>(10));
+
+            entity.AddSystem(new RigidbodyMovementSystem());
 
             _entitiesLifeContext.Add(entity);
 
             return entity;
         }
-        
+
         private Entity CreateEmpty() => new Entity();
     }
 }
