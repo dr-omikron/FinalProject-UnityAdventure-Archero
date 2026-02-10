@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
-using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -56,6 +56,7 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono
             MonoEntity monoEntity = _entityToMono[entity];
             monoEntity.Cleanup(entity);
             Object.Destroy(monoEntity.gameObject);
+
         }
     }
 }

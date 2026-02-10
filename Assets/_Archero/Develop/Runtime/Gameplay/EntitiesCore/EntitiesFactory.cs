@@ -1,6 +1,8 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using _Archero.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Archero.Develop.Runtime.Gameplay.Features.MovementFeature;
 using _Archero.Develop.Runtime.Infrastructure.DI;
+using _Archero.Develop.Runtime.Utilities.Conditions;
 using _Archero.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
@@ -19,17 +21,40 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
             _monoEntityFactory = _container.Resolve<MonoEntityFactory>();
         }
 
-        public Entity CreateEntity(Vector3 position)
+        public Entity CreateGhost(Vector3 position)
         {
             Entity entity = CreateEmpty();
 
-            _monoEntityFactory.Create(entity, position, "Entities/TestEntity");
+            _monoEntityFactory.Create(entity, position, "Entities/Ghost");
 
             entity
                 .AddMoveDirection()
-                .AddMoveSpeed(new ReactiveVariable<float>(10));
+                .AddMoveSpeed(new ReactiveVariable<float>(10))
+                .AddRotationSpeed(new ReactiveVariable<float>(900))
+                .AddRotationDirection()
+                .AddMaxHealth(new ReactiveVariable<float>(100))
+                .AddCurrentHealth(new ReactiveVariable<float>(100))
+                .AddIsDead()
+                .AddInDeathProcess()
+                .AddDeathProcessInitialTime(new ReactiveVariable<float>(2))
+                .AddDeathProcessCurrentTime();
 
-            entity.AddSystem(new RigidbodyMovementSystem());
+            ICompositeCondition canMove = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
+
+            ICompositeCondition canRotate = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
+
+            entity
+                .AddCanMove(canMove)
+                .AddCanRotate(canRotate);
+
+            entity
+                .AddSystem(new RigidbodyMovementSystem())
+                .AddSystem(new RigidbodyRotationSystem())
+                .AddSystem(new DeathSystem())
+                .AddSystem(new DeathProcessTimerSystem())
+                .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
             _entitiesLifeContext.Add(entity);
 

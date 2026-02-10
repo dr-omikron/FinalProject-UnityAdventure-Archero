@@ -21,7 +21,7 @@ namespace _Archero.Develop.Runtime.Gameplay
 
         public void Run()
         {
-            _entity = _entitiesFactory.CreateEntity(Vector3.zero);
+            _entity = _entitiesFactory.CreateGhost(Vector3.zero);
 
             _isRunning = true;
         }
@@ -30,9 +30,17 @@ namespace _Archero.Develop.Runtime.Gameplay
         {
             if (_isRunning == false)
                 return;
+            
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                _entity.CurrentHealth.Value -= 50;
+                Debug.Log("Health: " + _entity.CurrentHealth.Value);
+            }
 
             Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+
             _entity.MoveDirection.Value = input;
+            _entity.RotationDirection.Value = input;
         }
     }
 }
