@@ -12,6 +12,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateEntitiesFactory);
             container.RegisterAsSingle(CreateEntitiesLifeContext);
             container.RegisterAsSingle(CreateMonoEntityFactory).NonLazy();
+            container.RegisterAsSingle(CreateColliderRegistryService);
         }
 
         private static EntitiesLifeContext CreateEntitiesLifeContext(DIContainer c)
@@ -24,8 +25,12 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
         {
             ResourcesAssetsLoader resourcesAssetsLoader = c.Resolve<ResourcesAssetsLoader>();
             EntitiesLifeContext entitiesLifeContext = c.Resolve<EntitiesLifeContext>();
+            ColliderRegistryService colliderRegistryService = c.Resolve<ColliderRegistryService>();
 
-            return new MonoEntityFactory(resourcesAssetsLoader, entitiesLifeContext);
+            return new MonoEntityFactory(resourcesAssetsLoader, entitiesLifeContext, colliderRegistryService);
         }
+        
+        private static ColliderRegistryService CreateColliderRegistryService(DIContainer c)
+            => new ColliderRegistryService();
     }
 }

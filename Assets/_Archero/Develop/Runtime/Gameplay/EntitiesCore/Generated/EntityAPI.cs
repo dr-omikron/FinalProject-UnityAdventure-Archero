@@ -2,6 +2,42 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 {
 	public partial class Entity
 	{
+		public _Archero.Develop.Runtime.Gameplay.Features.Sensors.BodyCollider BodyColliderC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Sensors.BodyCollider>();
+
+		public UnityEngine.CapsuleCollider BodyCollider => BodyColliderC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBodyCollider(UnityEngine.CapsuleCollider value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.BodyCollider {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.Sensors.ContactsDetectingMask ContactsDetectingMaskC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Sensors.ContactsDetectingMask>();
+
+		public UnityEngine.LayerMask ContactsDetectingMask => ContactsDetectingMaskC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddContactsDetectingMask(UnityEngine.LayerMask value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.ContactsDetectingMask {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.Sensors.ContactsCollidersBuffer ContactsCollidersBufferC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Sensors.ContactsCollidersBuffer>();
+
+		public _Archero.Develop.Runtime.Utilities.Buffer<UnityEngine.Collider> ContactsCollidersBuffer => ContactsCollidersBufferC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddContactsCollidersBuffer(_Archero.Develop.Runtime.Utilities.Buffer<UnityEngine.Collider> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.ContactsCollidersBuffer {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.Sensors.ContactsEntitiesBuffer ContactsEntitiesBufferC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Sensors.ContactsEntitiesBuffer>();
+
+		public _Archero.Develop.Runtime.Utilities.Buffer<_Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity> ContactsEntitiesBuffer => ContactsEntitiesBufferC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddContactsEntitiesBuffer(_Archero.Develop.Runtime.Utilities.Buffer<_Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.ContactsEntitiesBuffer {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.MovementFeature.MoveDirection MoveDirectionC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.MovementFeature.MoveDirection>();
 
 		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Vector3> MoveDirection => MoveDirectionC.Value;

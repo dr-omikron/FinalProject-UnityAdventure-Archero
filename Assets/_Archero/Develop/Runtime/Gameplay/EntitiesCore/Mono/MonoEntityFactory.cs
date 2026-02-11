@@ -11,20 +11,28 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono
     {
         private readonly ResourcesAssetsLoader _resourcesAssetsLoader;
         private readonly EntitiesLifeContext _entitiesLifeContext;
+        private readonly ColliderRegistryService _colliderRegistryService;
 
         private readonly Dictionary<Entity, MonoEntity> _entityToMono = new Dictionary<Entity, MonoEntity>();
 
-        public MonoEntityFactory(ResourcesAssetsLoader resourcesAssetsLoader, EntitiesLifeContext entitiesLifeContext)
+        public MonoEntityFactory(
+            ResourcesAssetsLoader resourcesAssetsLoader, 
+            EntitiesLifeContext entitiesLifeContext, 
+            ColliderRegistryService colliderRegistryService)
         {
             _resourcesAssetsLoader = resourcesAssetsLoader;
             _entitiesLifeContext = entitiesLifeContext;
+            _colliderRegistryService = colliderRegistryService;
         }
 
         public MonoEntity Create(Entity entity, Vector3 position, string path)
         {
             MonoEntity prefab = _resourcesAssetsLoader.Load<MonoEntity>(path);
             MonoEntity instance = Object.Instantiate(prefab, position, Quaternion.identity, null);
-            instance.Setup(entity);
+
+            instance.Initialize(_colliderRegistryService);
+            instance.Link(entity);
+
             _entityToMono.Add(entity, instance);
             return instance;
         }
@@ -56,7 +64,6 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono
             MonoEntity monoEntity = _entityToMono[entity];
             monoEntity.Cleanup(entity);
             Object.Destroy(monoEntity.gameObject);
-
         }
     }
 }
