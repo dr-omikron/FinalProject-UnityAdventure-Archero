@@ -118,6 +118,24 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.IsDead {Value = value});
 		}
 
+		public _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.MustDie MustDieC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LifeCycle.MustDie>();
+
+		public _Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition MustDie => MustDieC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddMustDie(_Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.MustDie {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.MustSelfRelease MustSelfReleaseC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LifeCycle.MustSelfRelease>();
+
+		public _Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition MustSelfRelease => MustSelfReleaseC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddMustSelfRelease(_Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.MustSelfRelease {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.DeathProcessInitialTime DeathProcessInitialTimeC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LifeCycle.DeathProcessInitialTime>();
 
 		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> DeathProcessInitialTime => DeathProcessInitialTimeC.Value;
@@ -158,6 +176,43 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddInDeathProcess(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
 		{
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.InDeathProcess {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.TakeDamageRequest TakeDamageRequestC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.TakeDamageRequest>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> TakeDamageRequest => TakeDamageRequestC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddTakeDamageRequest()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.TakeDamageRequest { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddTakeDamageRequest(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.TakeDamageRequest {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.TakeDamageEvent TakeDamageEventC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.TakeDamageEvent>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> TakeDamageEvent => TakeDamageEventC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddTakeDamageEvent()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.TakeDamageEvent { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddTakeDamageEvent(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.TakeDamageEvent {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.CanApplyDamage CanApplyDamageC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.CanApplyDamage>();
+
+		public _Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition CanApplyDamage => CanApplyDamageC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanApplyDamage(_Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.CanApplyDamage {Value = value});
 		}
 
 		public _Archero.Develop.Runtime.Gameplay.Common.RigidbodyComponent RigidbodyC => GetComponent<_Archero.Develop.Runtime.Gameplay.Common.RigidbodyComponent>();

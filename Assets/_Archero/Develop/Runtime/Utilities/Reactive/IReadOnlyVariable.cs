@@ -8,3 +8,4 @@ namespace _Archero.Develop.Runtime.Utilities.Reactive
         public T Value { get; }
     }
 }
+
