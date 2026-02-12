@@ -1,6 +1,8 @@
-﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+﻿using System.Collections.Generic;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
 using _Archero.Develop.Runtime.Utilities.Conditions;
 using _Archero.Develop.Runtime.Utilities.Reactive;
+using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Gameplay.Features.LifeCycle
 {
@@ -42,5 +44,10 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.LifeCycle
     public class InDeathProcess : IEntityComponent
     {
         public ReactiveVariable<bool> Value;
+    }
+
+    public class DisableCollidersOnDeath : IEntityComponent
+    {
+        public List<Collider> Value;
     }
 }

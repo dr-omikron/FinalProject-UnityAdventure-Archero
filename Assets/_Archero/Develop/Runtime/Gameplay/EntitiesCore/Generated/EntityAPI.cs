@@ -214,6 +214,34 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.InDeathProcess {Value = value});
 		}
 
+		public _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.DisableCollidersOnDeath DisableCollidersOnDeathC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LifeCycle.DisableCollidersOnDeath>();
+
+		public System.Collections.Generic.List<UnityEngine.Collider> DisableCollidersOnDeath => DisableCollidersOnDeathC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddDisableCollidersOnDeath()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.DisableCollidersOnDeath { Value = new System.Collections.Generic.List<UnityEngine.Collider>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddDisableCollidersOnDeath(System.Collections.Generic.List<UnityEngine.Collider> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.DisableCollidersOnDeath {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage.BodyContactDamage BodyContactDamageC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage.BodyContactDamage>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> BodyContactDamage => BodyContactDamageC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBodyContactDamage()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage.BodyContactDamage { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBodyContactDamage(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage.BodyContactDamage {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.TakeDamageRequest TakeDamageRequestC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.ApplyDamage.TakeDamageRequest>();
 
 		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> TakeDamageRequest => TakeDamageRequestC.Value;

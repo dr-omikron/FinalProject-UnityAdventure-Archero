@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Systems;
+using _Archero.Develop.Runtime.Utilities.Reactive;
+using UnityEngine;
+
+namespace _Archero.Develop.Runtime.Gameplay.Features.LifeCycle
+{
+    public class DisableCollidersOnDeathSystem : IInitializableSystem, IDisposableSystem
+    {
+        private List<Collider> _colliders;
+        private ReactiveVariable<bool> _isDead;
+        
+        private IDisposable _isDeadChangedDisposable;
+        public void OnInit(Entity entity)
+        {
+            _colliders = entity.DisableCollidersOnDeath;
+            _isDead = entity.IsDead;
+
+            _isDeadChangedDisposable = _isDead.Subscribe(OnIsDeadChanged);
+        }
+
+        public void OnDispose()
+        {
+            _isDeadChangedDisposable.Dispose();
+        }
+
+        private void OnIsDeadChanged(bool arg1, bool isDead)
+        {
+            if(isDead)
+                foreach(var collider in _colliders)
+                    collider.enabled = false;
+        }
+
+    }
+}

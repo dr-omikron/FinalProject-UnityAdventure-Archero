@@ -1,5 +1,6 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage;
+using _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage;
 using _Archero.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Archero.Develop.Runtime.Gameplay.Features.MovementFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.Sensors;
@@ -47,7 +48,8 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddTakeDamageEvent()
                 .AddContactsDetectingMask(1 << LayerMask.NameToLayer("Characters"))
                 .AddContactsCollidersBuffer(new Buffer<Collider>(64))
-                .AddContactsEntitiesBuffer(new Buffer<Entity>(64));
+                .AddContactsEntitiesBuffer(new Buffer<Entity>(64))
+                .AddBodyContactDamage(new ReactiveVariable<float>(50));
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -77,8 +79,10 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new RigidbodyRotationSystem())
                 .AddSystem(new BodyContactsDetectingSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_colliderRegistryService))
+                .AddSystem(new DealDamageOnContactSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
+                .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new DeathProcessTimerSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
