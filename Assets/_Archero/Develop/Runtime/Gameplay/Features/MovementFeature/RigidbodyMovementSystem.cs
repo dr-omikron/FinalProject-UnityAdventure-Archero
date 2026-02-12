@@ -10,6 +10,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.MovementFeature
     {
         private ReactiveVariable<Vector3> _moveDirection;
         private ReactiveVariable<float> _moveSpeed;
+        private ReactiveVariable<bool> _isMoving;
         private Rigidbody _rigidbody;
 
         private ICompositeCondition _canMove;
@@ -18,6 +19,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.MovementFeature
         {
             _moveDirection = entity.MoveDirection;
             _moveSpeed = entity.MoveSpeed;
+            _isMoving = entity.IsMoving;
             _rigidbody = entity.Rigidbody;
             _canMove = entity.CanMove;
         }
@@ -31,6 +33,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.MovementFeature
             }
 
             Vector3 velocity = _moveDirection.Value.normalized * _moveSpeed.Value;
+            _isMoving.Value = velocity.magnitude > 0;
             _rigidbody.velocity = velocity;
         }
     }

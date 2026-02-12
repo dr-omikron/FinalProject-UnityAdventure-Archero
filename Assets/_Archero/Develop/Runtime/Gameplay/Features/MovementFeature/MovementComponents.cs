@@ -14,6 +14,11 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.MovementFeature
     {
         public ReactiveVariable<float> Value;
     }
+    
+    public class IsMoving : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
+    }
 
     public class CanMove : IEntityComponent
     {

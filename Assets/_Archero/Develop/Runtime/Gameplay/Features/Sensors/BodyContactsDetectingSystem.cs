@@ -29,8 +29,6 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.Sensors
                 QueryTriggerInteraction.Ignore);
 
             RemoveSelfFromContacts();
-
-            Debug.Log($"Found {_contacts.Count} contacts");
         }
 
         private void RemoveSelfFromContacts()

@@ -38,8 +38,6 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.Sensors
                     _contactsEntities.Count++;
                 }
             }
-            
-            Debug.Log(_contactsEntities.Count + " entities contacted");
         }
     }
 }
