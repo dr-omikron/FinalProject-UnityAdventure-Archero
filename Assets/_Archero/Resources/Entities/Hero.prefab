@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2123328611998068765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 874810673672446371}
+  m_Layer: 0
+  m_Name: ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &874810673672446371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123328611998068765}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.25, z: 0.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6928448239417234388}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5842007230060366378
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +271,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6068410302033094230}
+    - targetCorrespondingSourceObject: {fileID: 5859159528442208092, guid: bbd60134e8ed8d540814f3eddac67c24,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 874810673672446371}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2311955679766161449, guid: bbd60134e8ed8d540814f3eddac67c24,
         type: 3}
@@ -253,6 +288,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -5228306694870052310}
+    - targetCorrespondingSourceObject: {fileID: 2311955679766161449, guid: bbd60134e8ed8d540814f3eddac67c24,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7102170529018459151}
     - targetCorrespondingSourceObject: {fileID: 2311955679766161449, guid: bbd60134e8ed8d540814f3eddac67c24,
         type: 3}
       insertIndex: -1
@@ -307,6 +346,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _colliders:
   - {fileID: -2635373848256746693}
+--- !u!114 &7102170529018459151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260048066454037665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79560b2252a44977b65df0d72d73eccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shootPoint: {fileID: 874810673672446371}
 --- !u!54 &775416834301369649
 Rigidbody:
   m_ObjectHideFlags: 0
