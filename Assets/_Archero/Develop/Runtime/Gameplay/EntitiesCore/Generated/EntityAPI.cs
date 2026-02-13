@@ -38,6 +38,29 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.ContactsEntitiesBuffer {Value = value});
 		}
 
+		public _Archero.Develop.Runtime.Gameplay.Features.Sensors.DeathMask DeathMaskC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Sensors.DeathMask>();
+
+		public UnityEngine.LayerMask DeathMask => DeathMaskC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddDeathMask(UnityEngine.LayerMask value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.DeathMask {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.Sensors.IsTouchDeathMask IsTouchDeathMaskC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Sensors.IsTouchDeathMask>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> IsTouchDeathMask => IsTouchDeathMaskC.Value;
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsTouchDeathMask()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.IsTouchDeathMask { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsTouchDeathMask(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.IsTouchDeathMask {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.MovementFeature.MoveDirection MoveDirectionC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.MovementFeature.MoveDirection>();
 
 		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Vector3> MoveDirection => MoveDirectionC.Value;
