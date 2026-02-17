@@ -3,15 +3,22 @@ using System.Collections.Generic;
 
 namespace _Archero.Develop.Runtime.Utilities.Reactive
 {
-    public class ReactiveVariable<T> : IReadOnlyVariable<T> where T : IEquatable<T>
+    public class ReactiveVariable<T> : IReadOnlyVariable<T>
     {
         private readonly List<Subscriber<T, T>> _subscribers = new List<Subscriber<T, T>>();
         private readonly List<Subscriber<T, T>> _toAdd = new List<Subscriber<T, T>>();
         private readonly List<Subscriber<T, T>> _toRemove = new List<Subscriber<T, T>>();
-        private T _value;
 
-        public ReactiveVariable() => _value = default;
-        public ReactiveVariable(T value) => _value = value;
+        private T _value;
+        private IEqualityComparer<T> _comparer;
+
+        public ReactiveVariable() : this(default) {}
+        public ReactiveVariable(T value) : this(value, EqualityComparer<T>.Default) {}
+        public ReactiveVariable(T value, IEqualityComparer<T> comparer)
+        {
+            _value = value;
+            _comparer = comparer;
+        }
 
         public T Value
         {
@@ -21,7 +28,7 @@ namespace _Archero.Develop.Runtime.Utilities.Reactive
                 T oldValue = _value;
                 _value = value;
 
-                if (_value.Equals(oldValue) == false)
+                if (_comparer.Equals(oldValue, _value) == false)
                     Invoke(oldValue, _value);
             }
         }

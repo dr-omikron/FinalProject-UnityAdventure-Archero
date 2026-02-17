@@ -7,9 +7,11 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
     {
         public event Action<Entity> Added; 
         public event Action<Entity> Released; 
-        
+
         private readonly List<Entity> _entities = new List<Entity>();
         private readonly List<Entity> _releaseRequests = new List<Entity>();
+
+        public IReadOnlyList<Entity> Entities => _entities;
 
         public void Add(Entity entity)
         {

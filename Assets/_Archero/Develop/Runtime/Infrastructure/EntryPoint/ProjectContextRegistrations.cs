@@ -16,6 +16,7 @@ using _Archero.Develop.Runtime.Utilities.DataManagement.Serializers;
 using _Archero.Develop.Runtime.Utilities.LoadingScreen;
 using _Archero.Develop.Runtime.Utilities.Reactive;
 using _Archero.Develop.Runtime.Utilities.SceneManagement;
+using _Archero.Develop.Runtime.Utilities.Timer;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -36,6 +37,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreatePlayerDataProvider);
             container.RegisterAsSingle(CreateProjectPresenterFactory);
             container.RegisterAsSingle(CreateViewsFactory);
+            container.RegisterAsSingle(CreateTimerServiceFactory);
             container.RegisterAsSingle(CreateLevelsProgressionService).NonLazy();
         }
 
@@ -105,5 +107,8 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
 
         private static LevelsProgressionService CreateLevelsProgressionService(DIContainer c) 
             => new LevelsProgressionService(c.Resolve<PlayerDataProvider>());
+
+        private static TimerServiceFactory CreateTimerServiceFactory(DIContainer c)
+            => new TimerServiceFactory(c);
     }
 }
