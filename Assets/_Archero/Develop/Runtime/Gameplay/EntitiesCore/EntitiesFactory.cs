@@ -1,4 +1,5 @@
-﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+﻿using _Archero.Develop.Runtime.Configs.Gameplay.Entities;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage;
 using _Archero.Develop.Runtime.Gameplay.Features.Attack;
 using _Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot;
@@ -6,6 +7,7 @@ using _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage;
 using _Archero.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Archero.Develop.Runtime.Gameplay.Features.MovementFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.Sensors;
+using _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities;
 using _Archero.Develop.Runtime.Utilities.Conditions;
@@ -29,37 +31,37 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
             _monoEntityFactory = _container.Resolve<MonoEntityFactory>();
         }
 
-        public Entity CreateHero(Vector3 position)
+        public Entity CreateHero(Vector3 position, HeroConfig config)
         {
             Entity entity = CreateEmpty();
 
-            _monoEntityFactory.Create(entity, position, "Entities/Hero");
+            _monoEntityFactory.Create(entity, position, config.PrefabPath);
 
             entity
                 .AddMoveDirection()
-                .AddMoveSpeed(new ReactiveVariable<float>(10))
+                .AddMoveSpeed(new ReactiveVariable<float>(config.MoveSpeed))
                 .AddIsMoving()
-                .AddRotationSpeed(new ReactiveVariable<float>(900))
+                .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
                 .AddRotationDirection()
-                .AddMaxHealth(new ReactiveVariable<float>(100))
-                .AddCurrentHealth(new ReactiveVariable<float>(100))
+                .AddMaxHealth(new ReactiveVariable<float>(config.MaxHealth))
+                .AddCurrentHealth(new ReactiveVariable<float>(config.MaxHealth))
                 .AddIsDead()
                 .AddInDeathProcess()
-                .AddDeathProcessInitialTime(new ReactiveVariable<float>(2))
+                .AddDeathProcessInitialTime(new ReactiveVariable<float>(config.DeathProcessTime))
                 .AddDeathProcessCurrentTime()
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
-                .AddAttackProcessInitialTime(new ReactiveVariable<float>(3))
+                .AddAttackProcessInitialTime(new ReactiveVariable<float>(config.AttackProcessTime))
                 .AddAttackProcessCurrentTime()
                 .AddInAttackProcess()
                 .AddStartAttackRequest()
                 .AddStartAttackEvent()
                 .AddEndAttackEvent()
                 .AddAttackDelayEndEvent()
-                .AddAttackDelayTime(new ReactiveVariable<float>(1))
-                .AddInstantAttackDamage(new ReactiveVariable<float>(50))
+                .AddAttackDelayTime(new ReactiveVariable<float>(config.AttackDelayTime))
+                .AddInstantAttackDamage(new ReactiveVariable<float>(config.InstantAttackDamage))
                 .AddAttackCanceledEvent()
-                .AddAttackCooldownInitialTime(new ReactiveVariable<float>(2))
+                .AddAttackCooldownInitialTime(new ReactiveVariable<float>(config.AttackCooldown))
                 .AddAttackCooldownCurrentTime()
                 .AddInAttackCooldown();
 
@@ -114,35 +116,33 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new DeathProcessTimerSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
-            _entitiesLifeContext.Add(entity);
-
             return entity;
         }
 
-        public Entity CreateGhost(Vector3 position)
+        public Entity CreateGhost(Vector3 position, GhostConfig config)
         {
             Entity entity = CreateEmpty();
 
-            _monoEntityFactory.Create(entity, position, "Entities/Ghost");
+            _monoEntityFactory.Create(entity, position, config.PrefabPath);
 
             entity
                 .AddMoveDirection()
-                .AddMoveSpeed(new ReactiveVariable<float>(10))
+                .AddMoveSpeed(new ReactiveVariable<float>(config.MoveSpeed))
                 .AddIsMoving()
-                .AddRotationSpeed(new ReactiveVariable<float>(900))
+                .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
                 .AddRotationDirection()
-                .AddMaxHealth(new ReactiveVariable<float>(100))
-                .AddCurrentHealth(new ReactiveVariable<float>(100))
+                .AddMaxHealth(new ReactiveVariable<float>(config.MaxHealth))
+                .AddCurrentHealth(new ReactiveVariable<float>(config.MaxHealth))
                 .AddIsDead()
                 .AddInDeathProcess()
-                .AddDeathProcessInitialTime(new ReactiveVariable<float>(2))
+                .AddDeathProcessInitialTime(new ReactiveVariable<float>(config.DeathProcessTime))
                 .AddDeathProcessCurrentTime()
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
-                .AddContactsDetectingMask(1 << LayerMask.NameToLayer("Characters"))
+                .AddContactsDetectingMask(Layers.CharactersMask)
                 .AddContactsCollidersBuffer(new Buffer<Collider>(64))
                 .AddContactsEntitiesBuffer(new Buffer<Entity>(64))
-                .AddBodyContactDamage(new ReactiveVariable<float>(50));
+                .AddBodyContactDamage(new ReactiveVariable<float>(config.BodyContactDamage));
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -179,12 +179,10 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new DeathProcessTimerSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
-            _entitiesLifeContext.Add(entity);
-
             return entity;
         }
 
-        public Entity CreateProjectile(Vector3 position, Vector3 direction, float damage)
+        public Entity CreateProjectile(Vector3 position, Vector3 direction, float damage, Entity owner)
         {
             Entity entity = CreateEmpty();
 
@@ -197,12 +195,14 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddRotationSpeed(new ReactiveVariable<float>(9999))
                 .AddRotationDirection(new ReactiveVariable<Vector3>(direction))
                 .AddIsDead()
-                .AddContactsDetectingMask(1 << LayerMask.NameToLayer("Characters"))
+                .AddContactsDetectingMask(Layers.CharactersMask | Layers.EnvironmentMask)
                 .AddContactsCollidersBuffer(new Buffer<Collider>(64))
                 .AddContactsEntitiesBuffer(new Buffer<Entity>(64))
                 .AddBodyContactDamage(new ReactiveVariable<float>(damage))
-                .AddDeathMask(1 << LayerMask.NameToLayer("Characters"))
-                .AddIsTouchDeathMask();
+                .AddDeathMask(Layers.EnvironmentMask)
+                .AddIsTouchDeathMask()
+                .AddIsTouchAnotherTeam()
+                .AddTeam(new ReactiveVariable<Teams>(owner.Team.Value));
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -210,8 +210,9 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
             ICompositeCondition canRotate = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
-            ICompositeCondition mustDie = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.IsTouchDeathMask.Value));
+            ICompositeCondition mustDie = new CompositeCondition(LogicOperations.Or)
+                .Add(new FuncCondition(() => entity.IsTouchDeathMask.Value))
+                .Add(new FuncCondition(() => entity.IsTouchAnotherTeam.Value));
 
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
@@ -229,9 +230,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_colliderRegistryService))
                 .AddSystem(new DealDamageOnContactSystem())
                 .AddSystem(new DeathMaskTouchDetectorSystem())
+                .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
+
+            _entitiesLifeContext.Add(entity);
+
+            return entity;
+        }
+        
+        public Entity CreateContactTrigger(Vector3 position)
+        {
+            Entity entity = CreateEmpty();
+
+            _monoEntityFactory.Create(entity, position, "Entities/ContactTrigger");
+
+            entity
+                .AddContactsDetectingMask(Layers.CharactersMask)
+                .AddContactsCollidersBuffer(new Buffer<Collider>(64))
+                .AddContactsEntitiesBuffer(new Buffer<Entity>(64));
+
+            entity
+                .AddSystem(new BodyContactsDetectingSystem())
+                .AddSystem(new BodyContactsEntitiesFilterSystem(_colliderRegistryService));
 
             _entitiesLifeContext.Add(entity);
 

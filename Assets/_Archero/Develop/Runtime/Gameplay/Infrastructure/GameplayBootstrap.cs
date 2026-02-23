@@ -2,6 +2,8 @@
 using System.Collections;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
 using _Archero.Develop.Runtime.Gameplay.Features.AI;
+using _Archero.Develop.Runtime.Gameplay.Features.MainHero;
+using _Archero.Develop.Runtime.Gameplay.States;
 using _Archero.Develop.Runtime.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -14,10 +16,9 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
     {
         private DIContainer _container;
         private GameplayInputArgs _inputArgs;
-
-        [SerializeField] private TestGameplay _testGameplay;
         private EntitiesLifeContext _entitiesLifeContext;
         private AIBrainContext _aiBrainContext;
+        private GameplayStatesContext _gameplayStatesContext;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -38,7 +39,8 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
 
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _aiBrainContext = _container.Resolve<AIBrainContext>();
-            _testGameplay.Initialize(_container);
+            _gameplayStatesContext = _container.Resolve<GameplayStatesContext>();
+            _container.Resolve<MainHeroFactory>().Create(Vector3.zero);
 
             yield break;
         }
@@ -46,14 +48,14 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
         public override void Run()
         {
             Debug.Log("Gameplay Scene Started");
-
-            _testGameplay.Run();
+            _gameplayStatesContext.Run();
         }
 
         private void Update()
         {
             _aiBrainContext?.Update(Time.deltaTime);
             _entitiesLifeContext?.Update(Time.deltaTime);
+            _gameplayStatesContext?.Update(Time.deltaTime);
 
             if (Input.GetKeyDown(KeyCode.F))
             {

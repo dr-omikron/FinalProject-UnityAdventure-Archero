@@ -9,6 +9,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot
     public class InstantShootSystem : IInitializableSystem, IDisposableSystem
     {
         private readonly EntitiesFactory _entitiesFactory;
+        private Entity _entity;
 
         private ReactiveEvent _attackDelayEndEvent;
         private ReactiveVariable<float> _damage;
@@ -23,6 +24,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot
 
         public void OnInit(Entity entity)
         {
+            _entity = entity;
             _attackDelayEndEvent = entity.AttackDelayEndEvent;
             _damage = entity.InstantAttackDamage;
             _shootPoint = entity.ShootPoint;
@@ -37,7 +39,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot
 
         private void OnAttackDelayEnd()
         {
-            _entitiesFactory.CreateProjectile(_shootPoint.position, _shootPoint.forward, _damage.Value);
+            _entitiesFactory.CreateProjectile(_shootPoint.position, _shootPoint.forward, _damage.Value, _entity);
         }
     }
 }

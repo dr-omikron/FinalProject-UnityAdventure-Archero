@@ -44,10 +44,10 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             yield return container.Resolve<ConfigsProviderService>().LoadAsync();
 
             bool isPlayerDataExist = false;
-            yield return playerDataProvider.Exists(result => isPlayerDataExist = result);
+            yield return playerDataProvider.ExistsAsync(result => isPlayerDataExist = result);
 
             if (isPlayerDataExist)
-                yield return playerDataProvider.Load();
+                yield return playerDataProvider.LoadAsync();
             else
                 playerDataProvider.Reset();
 
@@ -56,7 +56,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             Debug.Log("Завершается инициализация сервисов");
             loadingScreen.Hide();
 
-            yield return sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(1));
+            yield return sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu);
         }
     }
 }

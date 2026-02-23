@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Systems;
-using _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage;
+using _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using _Archero.Develop.Runtime.Utilities;
 using _Archero.Develop.Runtime.Utilities.Reactive;
 
@@ -9,6 +9,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage
 {
     public class DealDamageOnContactSystem : IInitializableSystem, IUpdateableSystem
     {
+        private Entity _entity;
         private Buffer<Entity> _contacts;
         private ReactiveVariable<float> _damage;
 
@@ -16,6 +17,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage
 
         public void OnInit(Entity entity)
         {
+            _entity = entity;
             _contacts = entity.ContactsEntitiesBuffer;
             _damage = entity.BodyContactDamage;
             
@@ -31,9 +33,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage
                 if (_processedEntities.Contains(contactEntity) == false)
                 {
                     _processedEntities.Add(contactEntity);
-
-                    if(contactEntity.HasComponent<TakeDamageRequest>())
-                        contactEntity.TakeDamageRequest.Invoke(_damage.Value);
+                    EntitiesHelper.TryTakeDamageFrom(_entity, contactEntity, _damage.Value);
                 }
             }
 

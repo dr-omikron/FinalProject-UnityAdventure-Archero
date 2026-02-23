@@ -2,6 +2,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 {
 	public partial class Entity
 	{
+		public _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Team TeamC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Team>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Teams> Team => TeamC.Value;
+
+		public bool TryGetTeam(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Teams> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Team component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Teams>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddTeam()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Team { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Teams>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddTeam(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Teams> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Team {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.Sensors.BodyCollider BodyColliderC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Sensors.BodyCollider>();
 
 		public UnityEngine.CapsuleCollider BodyCollider => BodyColliderC.Value;
@@ -119,6 +143,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsTouchDeathMask(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
 		{
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.IsTouchDeathMask {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.Sensors.IsTouchAnotherTeam IsTouchAnotherTeamC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Sensors.IsTouchAnotherTeam>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> IsTouchAnotherTeam => IsTouchAnotherTeamC.Value;
+
+		public bool TryGetIsTouchAnotherTeam(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.Sensors.IsTouchAnotherTeam component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsTouchAnotherTeam()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.IsTouchAnotherTeam { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsTouchAnotherTeam(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Sensors.IsTouchAnotherTeam {Value = value});
 		}
 
 		public _Archero.Develop.Runtime.Gameplay.Features.MovementFeature.MoveDirection MoveDirectionC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.MovementFeature.MoveDirection>();
@@ -277,6 +325,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanRotate(_Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
 		{
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.MovementFeature.CanRotate {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.MainHero.IsMainHero IsMainHeroC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.MainHero.IsMainHero>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> IsMainHero => IsMainHeroC.Value;
+
+		public bool TryGetIsMainHero(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.MainHero.IsMainHero component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsMainHero()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.MainHero.IsMainHero { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsMainHero(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.MainHero.IsMainHero {Value = value});
 		}
 
 		public _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.CurrentHealth CurrentHealthC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LifeCycle.CurrentHealth>();

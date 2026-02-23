@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Archero.Develop.Runtime.Configs.Gameplay.Entities;
 using _Archero.Develop.Runtime.Configs.Gameplay.Levels;
 using _Archero.Develop.Runtime.Configs.Meta.Wallet;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
@@ -16,7 +17,9 @@ namespace _Archero.Develop.Runtime.Utilities.ConfigsManagement
         {
             { typeof(StartWalletConfig), "Configs/Meta/Wallet/StartWalletConfig" },
             { typeof(CurrencyIconsConfig), "Configs/Meta/Wallet/CurrencyIconsConfig" },
-            { typeof(LevelsListConfig), "Configs/Gameplay/Levels/LevelsListConfig" }
+            { typeof(LevelsListConfig), "Configs/Gameplay/Levels/LevelsListConfig" },
+            { typeof(GhostConfig), "Configs/Gameplay/Entities/Characters/GhostConfig" },
+            { typeof(HeroConfig), "Configs/Gameplay/Entities/Characters/HeroConfig" }
         };
 
         public ResourcesConfigsLoader(ResourcesAssetsLoader resourcesAssetsLoader)

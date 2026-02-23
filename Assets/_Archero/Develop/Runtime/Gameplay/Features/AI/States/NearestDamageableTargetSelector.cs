@@ -2,7 +2,9 @@
 using System.Linq;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
 using _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage;
+using _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using _Archero.Develop.Runtime.Utilities.Conditions;
+using _Archero.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Gameplay.Features.AI.States
@@ -27,6 +29,12 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.AI.States
                 if (target.TryGetCanApplyDamage(out ICompositeCondition canApplyDamage))
                 {
                     result = result && canApplyDamage.Evaluate();
+                }
+
+                if (_source.TryGetTeam(out ReactiveVariable<Teams> sourceTeam)
+                    && target.TryGetTeam(out ReactiveVariable<Teams> targetTeam))
+                {
+                    result = result && sourceTeam.Value != targetTeam.Value;
                 }
 
                 result = result && target != _source;

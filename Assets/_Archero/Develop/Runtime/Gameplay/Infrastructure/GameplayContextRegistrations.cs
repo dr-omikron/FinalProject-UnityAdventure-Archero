@@ -1,16 +1,26 @@
-﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+﻿using _Archero.Develop.Runtime.Configs.Gameplay.Levels;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using _Archero.Develop.Runtime.Gameplay.Features.AI;
+using _Archero.Develop.Runtime.Gameplay.Features.Enemies;
 using _Archero.Develop.Runtime.Gameplay.Features.InputFeatures;
+using _Archero.Develop.Runtime.Gameplay.Features.MainHero;
+using _Archero.Develop.Runtime.Gameplay.Features.StagesFeature;
+using _Archero.Develop.Runtime.Gameplay.States;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
+using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 
 namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
 {
     public class GameplayContextRegistrations
     {
+        private static GameplayInputArgs _inputArgs;
+
         public static void Process(DIContainer container, GameplayInputArgs args)
         {
+            _inputArgs = args;
+
             container.RegisterAsSingle(CreateEntitiesFactory);
             container.RegisterAsSingle(CreateEntitiesLifeContext);
             container.RegisterAsSingle(CreateMonoEntityFactory).NonLazy();
@@ -18,6 +28,14 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateBrainsFactory);
             container.RegisterAsSingle(CreateAIBrainContext);
             container.RegisterAsSingle<IInputService>(CreateDesktopInput);
+            container.RegisterAsSingle(CreateMainHeroFactory);
+            container.RegisterAsSingle(CreateEnemiesFactory);
+            container.RegisterAsSingle(CreateStagesFactory);
+            container.RegisterAsSingle(CreateStageProviderService);
+            container.RegisterAsSingle(CreatePreparationTriggerService);
+            container.RegisterAsSingle(CreateMainHeroHolderService).NonLazy();
+            container.RegisterAsSingle(CreateGameplayStatesFactory);
+            container.RegisterAsSingle(CreateGameplayStatesContext);
         }
 
         private static EntitiesLifeContext CreateEntitiesLifeContext(DIContainer c)
@@ -43,5 +61,34 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
         private static AIBrainContext CreateAIBrainContext(DIContainer c) => new AIBrainContext();
 
         private static DesktopInput CreateDesktopInput(DIContainer c) => new DesktopInput();
+
+        private static MainHeroFactory CreateMainHeroFactory(DIContainer c) => new MainHeroFactory(c);
+
+        private static EnemiesFactory CreateEnemiesFactory(DIContainer c) => new EnemiesFactory(c);
+        
+        private static StagesFactory CreateStagesFactory(DIContainer c) => new StagesFactory(c);
+
+        private static StageProviderService CreateStageProviderService(DIContainer c)
+        {
+            return new StageProviderService(
+                c.Resolve<ConfigsProviderService>().GetConfig<LevelsListConfig>().GetBy(_inputArgs.LevelNumber),
+                c.Resolve<StagesFactory>());
+        }
+
+        private static PreparationTriggerService CreatePreparationTriggerService(DIContainer c)
+        {
+            return new PreparationTriggerService(
+                c.Resolve<EntitiesFactory>(),
+                c.Resolve<EntitiesLifeContext>());
+        }
+
+        private static MainHeroHolderService CreateMainHeroHolderService(DIContainer c)
+            => new MainHeroHolderService(c.Resolve<EntitiesLifeContext>());
+
+        private static GameplayStatesFactory CreateGameplayStatesFactory(DIContainer c)
+            => new GameplayStatesFactory(c);
+
+        private static GameplayStatesContext CreateGameplayStatesContext(DIContainer c)
+            => new GameplayStatesContext(c.Resolve<GameplayStatesFactory>().CreateGameplayStateMachine(_inputArgs));
     }
 }
