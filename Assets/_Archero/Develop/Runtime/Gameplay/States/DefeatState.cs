@@ -1,38 +1,26 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.Features.InputFeatures;
-using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
-using _Archero.Develop.Runtime.Utilities.SceneManagement;
+using _Archero.Develop.Runtime.UI.Gameplay;
 using _Archero.Develop.Runtime.Utilities.StateMachineCore;
-using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Gameplay.States
 {
     public class DefeatState : EndGameState, IUpdatableState
     {
-        private readonly SceneSwitcherService _sceneSwitcherService;
-        private readonly ICoroutinesPerformer _coroutinesPerformer;
+        private readonly GameplayPopupService _gameplayPopupService;
 
         public DefeatState(
             IInputService inputService, 
-            SceneSwitcherService sceneSwitcherService, 
-            ICoroutinesPerformer coroutinesPerformer) : base(inputService)
+            GameplayPopupService gameplayPopupService) : base(inputService)
         {
-            _sceneSwitcherService = sceneSwitcherService;
-            _coroutinesPerformer = coroutinesPerformer;
+            _gameplayPopupService = gameplayPopupService;
         }
 
         public override void Enter()
         {
             base.Enter();
-
-            Debug.Log("DEFEAT!");
+            _gameplayPopupService.OpenDefeatPopup();
         }
 
-        public void Update(float deltaTime)
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                _coroutinesPerformer.StartPerform(_sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
-            }
-        }
+        public void Update(float deltaTime) { }
     }
 }

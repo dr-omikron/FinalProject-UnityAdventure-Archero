@@ -17,7 +17,7 @@ MonoBehaviour:
   <RotationSpeed>k__BackingField: 900
   <MaxHealth>k__BackingField: 100
   <DeathProcessTime>k__BackingField: 2
-  <AttackProcessTime>k__BackingField: 1.5
-  <AttackDelayTime>k__BackingField: 0.75
+  <AttackProcessTime>k__BackingField: 0.326666
+  <AttackDelayTime>k__BackingField: 0.253332
   <AttackCooldown>k__BackingField: 1
   <InstantAttackDamage>k__BackingField: 50

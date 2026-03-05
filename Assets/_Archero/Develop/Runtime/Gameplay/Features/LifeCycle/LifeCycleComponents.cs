@@ -16,6 +16,11 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.LifeCycle
         public ReactiveVariable<float> Value;
     }
 
+    public class HealthBarPoint : IEntityComponent
+    {
+        public Transform Value;
+    }
+
     public class IsDead : IEntityComponent
     {
         public ReactiveVariable<bool> Value;

@@ -28,6 +28,15 @@ namespace _Archero.Develop.Runtime.UI.Core
                             .From(0)
                             .SetEase(Ease.OutBack));
 
+                case PopupAnimationType.Fade:
+                    return DOTween.Sequence()
+                        .Append(antiClicker
+                            .DOFade(antiClickerMaxAlpha, 0.2f)
+                            .From(0))
+                        .Join(body
+                            .DOFade(1, 0.3f)
+                            .From(0));
+
                 default:
                     throw new ArgumentException(nameof(animationType));
             }

@@ -6,6 +6,7 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 {
     public partial class Entity : IDisposable
     {
+        public event Action<Entity> Initialized; 
         private readonly Dictionary<Type, IEntityComponent> _components = new Dictionary<Type, IEntityComponent>();
         private readonly List<IEntitySystem> _systems = new List<IEntitySystem>();
 
@@ -23,6 +24,8 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 initializable.OnInit(this);
 
             _isInit = true;
+
+            Initialized?.Invoke(this);
         }
 
         public void OnUpdate(float deltaTime)

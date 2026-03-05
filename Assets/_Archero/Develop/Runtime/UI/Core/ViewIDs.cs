@@ -7,5 +7,10 @@
         public const string TestPopup = nameof(TestPopup);
         public const string LevelsTile = nameof(LevelsTile);
         public const string LevelsMenuPopup = nameof(LevelsMenuPopup);
+        public const string GameplayScreen = nameof(GameplayScreen);
+        public const string WinPopup = nameof(WinPopup);
+        public const string DefeatPopup = nameof(DefeatPopup);
+        public const string SimpleHealthBar = nameof(SimpleHealthBar);
+        public const string HeroHealthBar = nameof(HeroHealthBar);
     }
 }

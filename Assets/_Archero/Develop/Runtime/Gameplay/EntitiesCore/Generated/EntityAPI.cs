@@ -26,6 +26,78 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Team {Value = value});
 		}
 
+		public _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnInitialTime SpawnInitialTimeC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnInitialTime>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> SpawnInitialTime => SpawnInitialTimeC.Value;
+
+		public bool TryGetSpawnInitialTime(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnInitialTime component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddSpawnInitialTime()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnInitialTime { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddSpawnInitialTime(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnInitialTime {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnCurrentTime SpawnCurrentTimeC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnCurrentTime>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> SpawnCurrentTime => SpawnCurrentTimeC.Value;
+
+		public bool TryGetSpawnCurrentTime(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnCurrentTime component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddSpawnCurrentTime()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnCurrentTime { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddSpawnCurrentTime(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnCurrentTime {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.InSpawnProcess InSpawnProcessC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.InSpawnProcess>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> InSpawnProcess => InSpawnProcessC.Value;
+
+		public bool TryGetInSpawnProcess(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.InSpawnProcess component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddInSpawnProcess()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.InSpawnProcess { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddInSpawnProcess(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.InSpawnProcess {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.Sensors.BodyCollider BodyColliderC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Sensors.BodyCollider>();
 
 		public UnityEngine.CapsuleCollider BodyCollider => BodyColliderC.Value;
@@ -397,6 +469,25 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddMaxHealth(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
 		{
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.MaxHealth {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.HealthBarPoint HealthBarPointC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LifeCycle.HealthBarPoint>();
+
+		public UnityEngine.Transform HealthBarPoint => HealthBarPointC.Value;
+
+		public bool TryGetHealthBarPoint(out UnityEngine.Transform value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.HealthBarPoint component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(UnityEngine.Transform);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddHealthBarPoint(UnityEngine.Transform value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.HealthBarPoint {Value = value});
 		}
 
 		public _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.IsDead IsDeadC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LifeCycle.IsDead>();

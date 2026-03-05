@@ -16,7 +16,12 @@ namespace _Archero.Develop.Runtime.UI.Core
             { ViewIDs.MainMenuScreen, "UI/MainMenu/MainMenuScreenView" },
             { ViewIDs.TestPopup, "UI/TestPopup" },
             { ViewIDs.LevelsMenuPopup, "UI/LevelsMenuPopup/LevelsMenuPopup" },
-            { ViewIDs.LevelsTile, "UI/LevelsMenuPopup/LevelTile" }
+            { ViewIDs.LevelsTile, "UI/LevelsMenuPopup/LevelTile" },
+            { ViewIDs.GameplayScreen, "UI/Gameplay/GameplayScreenView" },
+            { ViewIDs.WinPopup, "UI/Gameplay/ResultPopup/WinPopup" },
+            { ViewIDs.DefeatPopup, "UI/Gameplay/ResultPopup/DefeatPopup" },
+            { ViewIDs.SimpleHealthBar, "UI/Gameplay/HealthBars/SimpleHealthBar" },
+            { ViewIDs.HeroHealthBar, "UI/Gameplay/HealthBars/HeroHealthBar" }
         };
 
         public ViewsFactory(ResourcesAssetsLoader resourcesAssetsLoader)

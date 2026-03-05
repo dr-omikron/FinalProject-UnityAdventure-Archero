@@ -66,7 +66,7 @@ namespace _Archero.Develop.Runtime.UI.Core
         protected void OnPopupCreated(PopupPresenterBase popup, PopupViewBase view, Action closedCallback = null)
         {
             PopupInfo popupInfo = new PopupInfo(view, closedCallback);
-            
+
             _presenterToInfo.Add(popup, popupInfo);
             popup.Initialize();
             popup.Show();

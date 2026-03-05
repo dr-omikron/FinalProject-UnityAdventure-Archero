@@ -6,6 +6,7 @@ using _Archero.Develop.Runtime.Gameplay.Features.MainHero;
 using _Archero.Develop.Runtime.Gameplay.States;
 using _Archero.Develop.Runtime.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure.DI;
+using _Archero.Develop.Runtime.UI.Gameplay;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.SceneManagement;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
         private EntitiesLifeContext _entitiesLifeContext;
         private AIBrainContext _aiBrainContext;
         private GameplayStatesContext _gameplayStatesContext;
+        private GameplayScreenPresenter _gameplayScreenPresenter;
 
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
@@ -40,6 +42,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _aiBrainContext = _container.Resolve<AIBrainContext>();
             _gameplayStatesContext = _container.Resolve<GameplayStatesContext>();
+            _gameplayScreenPresenter = _container.Resolve<GameplayScreenPresenter>();
             _container.Resolve<MainHeroFactory>().Create(Vector3.zero);
 
             yield break;
@@ -63,6 +66,11 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
                 ICoroutinesPerformer coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
                 coroutinesPerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
             }
+        }
+
+        private void LateUpdate()
+        {
+            _gameplayScreenPresenter?.LateUpdate();
         }
     }
 }

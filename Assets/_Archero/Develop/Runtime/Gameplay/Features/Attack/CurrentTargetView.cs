@@ -1,0 +1,61 @@
+﻿using System;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using _Archero.Develop.Runtime.Utilities.Reactive;
+using UnityEngine;
+
+namespace _Archero.Develop.Runtime.Gameplay.Features.Attack
+{
+    public class CurrentTargetView : EntityView
+    {
+        [SerializeField] private ParticleSystem _backlightPrefab;
+        private ParticleSystem _backlight;
+        
+        private ReactiveVariable<Entity> _currentTarget;
+        private Transform _currentTargetTransform;
+
+        private IDisposable _currentTargetChangedDisposable;
+
+        protected override void OnEntityStartedWork(Entity entity)
+        {
+            _currentTarget = entity.CurrentTarget;
+            _backlight = Instantiate(_backlightPrefab);
+            _currentTargetChangedDisposable = _currentTarget.Subscribe(OnCurrentTargetChanged);
+            UpdateBacklightFor(_currentTarget.Value);
+        }
+
+        public override void Cleanup(Entity entity)
+        {
+            base.Cleanup(entity);
+            _currentTargetChangedDisposable.Dispose();
+            Destroy(_backlight.gameObject);
+        }
+
+        private void LateUpdate()
+        {
+            if (_currentTargetTransform == null)
+                return;
+
+            _backlight.transform.position = _currentTargetTransform.position;
+        }
+
+        private void OnCurrentTargetChanged(Entity oldTarget, Entity newTarget)
+        {
+            UpdateBacklightFor(newTarget);
+        }
+
+        private void UpdateBacklightFor(Entity newTarget)
+        {
+            if (newTarget == null)
+            {
+                _backlight.gameObject.SetActive(false);
+                _currentTargetTransform = null;
+                return;
+            }
+
+            _backlight.gameObject.SetActive(true);
+            _currentTargetTransform = newTarget.Transform;
+        }
+
+    }
+}
