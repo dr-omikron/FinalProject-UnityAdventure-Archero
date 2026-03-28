@@ -1,7 +1,11 @@
-﻿using _Archero.Develop.Runtime.Configs.Gameplay.Entities;
+﻿using _Archero.Develop.Runtime.Configs.Abilities;
+using _Archero.Develop.Runtime.Configs.Gameplay;
+using _Archero.Develop.Runtime.Configs.Gameplay.Entities;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+using _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.AI;
 using _Archero.Develop.Runtime.Gameplay.Features.AI.States;
+using _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
@@ -35,6 +39,15 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.MainHero
             entity
                 .AddIsMainHero()
                 .AddTeam(new ReactiveVariable<Teams>(Teams.MainHero));
+
+            entity
+                .AddAbilities()
+                .AddSystem(new AbilityOnAddActivatorSystem());
+
+            entity
+                .AddLevel(new ReactiveVariable<int>(1))
+                .AddExperience()
+                .AddSystem(new LevelUpSystem(_configsProviderService.GetConfig<ExperienceForUpgradeLevelConfig>()));
 
             entity.AddCurrentTarget();
 

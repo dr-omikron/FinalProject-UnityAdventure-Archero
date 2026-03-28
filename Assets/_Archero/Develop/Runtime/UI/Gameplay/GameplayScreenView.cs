@@ -9,5 +9,6 @@ namespace _Archero.Develop.Runtime.UI.Gameplay
     {
         [field: SerializeField] public IconTextView StageNumberView { get; private set; }
         [field: SerializeField] public EntitiesHealthDisplay EntitiesHealthDisplay { get; private set; }
+        [field: SerializeField] public BarWithText ExperienceBarView { get; private set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.Features.InputFeatures;
 using _Archero.Develop.Runtime.Gameplay.Features.MainHero;
+using _Archero.Develop.Runtime.Gameplay.Features.PauseFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.StagesFeature;
 using _Archero.Develop.Runtime.Gameplay.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure.DI;
@@ -8,7 +9,6 @@ using _Archero.Develop.Runtime.UI.Gameplay;
 using _Archero.Develop.Runtime.Utilities.Conditions;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.DataManagement.DataProviders;
-using _Archero.Develop.Runtime.Utilities.SceneManagement;
 
 namespace _Archero.Develop.Runtime.Gameplay.States
 {
@@ -35,6 +35,7 @@ namespace _Archero.Develop.Runtime.Gameplay.States
         {
             return new WinState(
                 _container.Resolve<IInputService>(),
+                _container.Resolve<IPauseService>(),
                 _container.Resolve<LevelsProgressionService>(),
                 inputArgs,
                 _container.Resolve<PlayerDataProvider>(),
@@ -46,6 +47,7 @@ namespace _Archero.Develop.Runtime.Gameplay.States
         {
             return new DefeatState(
                 _container.Resolve<IInputService>(),
+                _container.Resolve<IPauseService>(),
                 _container.Resolve<GameplayPopupService>());
         }
 

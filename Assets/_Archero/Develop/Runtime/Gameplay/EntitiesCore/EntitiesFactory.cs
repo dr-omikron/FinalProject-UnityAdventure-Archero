@@ -1,4 +1,5 @@
-﻿using _Archero.Develop.Runtime.Configs.Gameplay.Entities;
+﻿using System.Collections.Generic;
+using _Archero.Develop.Runtime.Configs.Gameplay.Entities;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage;
 using _Archero.Develop.Runtime.Gameplay.Features.Attack;
@@ -8,6 +9,7 @@ using _Archero.Develop.Runtime.Gameplay.Features.LifeCycle;
 using _Archero.Develop.Runtime.Gameplay.Features.MovementFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.Sensors;
 using _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures;
+using _Archero.Develop.Runtime.Gameplay.Features.StatsFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Utilities;
@@ -38,14 +40,26 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 
             _monoEntityFactory.Create(entity, position, config.PrefabPath);
 
+            Dictionary<StatTypes, float> baseStats = new Dictionary<StatTypes, float>
+            {
+                { StatTypes.MoveSpeed, config.MoveSpeed },
+                { StatTypes.MaxHealth, config.MaxHealth },
+                { StatTypes.Damage, config.InstantAttackDamage }
+            };
+
+            Dictionary<StatTypes, float> modifiedStats = new Dictionary<StatTypes, float>(baseStats);
+
             entity
+                .AddStatsEffects()
+                .AddBaseStats(baseStats)
+                .AddModifiedStats(modifiedStats)
                 .AddMoveDirection()
-                .AddMoveSpeed(new ReactiveVariable<float>(config.MoveSpeed))
+                .AddMoveSpeed(new ReactiveVariable<float>(baseStats[StatTypes.MoveSpeed]))
                 .AddIsMoving()
                 .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
                 .AddRotationDirection()
                 .AddMaxHealth(new ReactiveVariable<float>(config.MaxHealth))
-                .AddCurrentHealth(new ReactiveVariable<float>(config.MaxHealth))
+                .AddCurrentHealth(new ReactiveVariable<float>(baseStats[StatTypes.MaxHealth]))
                 .AddIsDead()
                 .AddInDeathProcess()
                 .AddDeathProcessInitialTime(new ReactiveVariable<float>(config.DeathProcessTime))
@@ -60,7 +74,7 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddEndAttackEvent()
                 .AddAttackDelayEndEvent()
                 .AddAttackDelayTime(new ReactiveVariable<float>(config.AttackDelayTime))
-                .AddInstantAttackDamage(new ReactiveVariable<float>(config.InstantAttackDamage))
+                .AddInstantAttackDamage(new ReactiveVariable<float>(baseStats[StatTypes.Damage]))
                 .AddAttackCanceledEvent()
                 .AddAttackCooldownInitialTime(new ReactiveVariable<float>(config.AttackCooldown))
                 .AddAttackCooldownCurrentTime()
@@ -102,6 +116,10 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddMustCanceledAttack(mustCanceledAttack);
 
             entity
+                .AddSystem(new StatEffectsApplierSystem())
+                .AddSystem(new MoveSpeedStatSynchronizerSystem())
+                .AddSystem(new DamageStatSynchronizerSystem())
+                .AddSystem(new MaxHealthStatSynchronizerSystem())
                 .AddSystem(new RigidbodyMovementSystem())
                 .AddSystem(new RigidbodyRotationSystem())
                 .AddSystem(new StartAttackSystem())

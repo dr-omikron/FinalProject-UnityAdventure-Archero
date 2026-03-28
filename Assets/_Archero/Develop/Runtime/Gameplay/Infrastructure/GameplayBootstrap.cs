@@ -22,6 +22,8 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
         private GameplayStatesContext _gameplayStatesContext;
         private GameplayScreenPresenter _gameplayScreenPresenter;
 
+        private MainHeroHolderService _mainHeroHolderService;
+
         public override void ProcessRegistration(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
             _container = container;
@@ -45,6 +47,8 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
             _gameplayScreenPresenter = _container.Resolve<GameplayScreenPresenter>();
             _container.Resolve<MainHeroFactory>().Create(Vector3.zero);
 
+            _mainHeroHolderService = _container.Resolve<MainHeroHolderService>();
+
             yield break;
         }
 
@@ -66,6 +70,9 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
                 ICoroutinesPerformer coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
                 coroutinesPerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
             }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+                _mainHeroHolderService.MainHero.Experience.Value += 1000;
         }
 
         private void LateUpdate()

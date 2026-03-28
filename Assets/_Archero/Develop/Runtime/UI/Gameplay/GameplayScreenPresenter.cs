@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Archero.Develop.Runtime.UI.Core;
+using _Archero.Develop.Runtime.UI.Gameplay.Experience;
 using _Archero.Develop.Runtime.UI.Gameplay.HealthDisplay;
 using _Archero.Develop.Runtime.UI.Gameplay.Stages;
 
@@ -22,6 +23,7 @@ namespace _Archero.Develop.Runtime.UI.Gameplay
         {
             CreateStageNumber();
             CreateEntityHealthDisplay();
+            CreateMainHeroExperienceView();
 
             foreach (var childPresenter in _childPresenters)
                 childPresenter.Initialize();
@@ -52,6 +54,12 @@ namespace _Archero.Develop.Runtime.UI.Gameplay
                 _presentersFactory.CreateEntityHealthDisplayPresenter(_screen.EntitiesHealthDisplay);
 
             _childPresenters.Add(_entityHealthDisplayPresenter);
+        }
+
+        private void CreateMainHeroExperienceView()
+        {
+            MainHeroExperiencePresenter mainHeroExperiencePresenter = _presentersFactory.CreateMainHeroExperiencePresenter(_screen.ExperienceBarView);
+            _childPresenters.Add(mainHeroExperiencePresenter);
         }
     }
 }

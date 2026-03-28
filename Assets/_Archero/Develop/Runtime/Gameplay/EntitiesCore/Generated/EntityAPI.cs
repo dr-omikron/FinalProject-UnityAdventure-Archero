@@ -26,6 +26,78 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.TeamsFeature.Team {Value = value});
 		}
 
+		public _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.BaseStats BaseStatsC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.BaseStats>();
+
+		public System.Collections.Generic.Dictionary<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatTypes, System.Single> BaseStats => BaseStatsC.Value;
+
+		public bool TryGetBaseStats(out System.Collections.Generic.Dictionary<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatTypes, System.Single> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.BaseStats component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(System.Collections.Generic.Dictionary<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatTypes, System.Single>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBaseStats()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.BaseStats { Value = new System.Collections.Generic.Dictionary<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatTypes, System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBaseStats(System.Collections.Generic.Dictionary<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatTypes, System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.BaseStats {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.ModifiedStats ModifiedStatsC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.ModifiedStats>();
+
+		public System.Collections.Generic.Dictionary<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatTypes, System.Single> ModifiedStats => ModifiedStatsC.Value;
+
+		public bool TryGetModifiedStats(out System.Collections.Generic.Dictionary<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatTypes, System.Single> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.ModifiedStats component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(System.Collections.Generic.Dictionary<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatTypes, System.Single>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddModifiedStats()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.ModifiedStats { Value = new System.Collections.Generic.Dictionary<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatTypes, System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddModifiedStats(System.Collections.Generic.Dictionary<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatTypes, System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.ModifiedStats {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffects StatsEffectsC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffects>();
+
+		public _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffectList StatsEffects => StatsEffectsC.Value;
+
+		public bool TryGetStatsEffects(out _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffectList value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffects component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffectList);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddStatsEffects()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffects { Value = new _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffectList() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddStatsEffects(_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffectList value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffects {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnInitialTime SpawnInitialTimeC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnInitialTime>();
 
 		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> SpawnInitialTime => SpawnInitialTimeC.Value;
@@ -648,6 +720,54 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.DisableCollidersOnDeath {Value = value});
 		}
 
+		public _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature.Experience ExperienceC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature.Experience>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> Experience => ExperienceC.Value;
+
+		public bool TryGetExperience(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature.Experience component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExperience()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature.Experience { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExperience(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature.Experience {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature.Level LevelC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature.Level>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> Level => LevelC.Value;
+
+		public bool TryGetLevel(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature.Level component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddLevel()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature.Level { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddLevel(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature.Level {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage.BodyContactDamage BodyContactDamageC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage.BodyContactDamage>();
 
 		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> BodyContactDamage => BodyContactDamageC.Value;
@@ -1130,6 +1250,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCurrentTarget(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
 		{
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.AI.CurrentTarget {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.AbilitiesComponent AbilitiesC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.AbilitiesComponent>();
+
+		public _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.AbilitiesList Abilities => AbilitiesC.Value;
+
+		public bool TryGetAbilities(out _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.AbilitiesList value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.AbilitiesComponent component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.AbilitiesList);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilities()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.AbilitiesComponent { Value = new _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.AbilitiesList() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilities(_Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.AbilitiesList value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.AbilitiesComponent {Value = value});
 		}
 
 		public _Archero.Develop.Runtime.Gameplay.Common.RigidbodyComponent RigidbodyC => GetComponent<_Archero.Develop.Runtime.Gameplay.Common.RigidbodyComponent>();

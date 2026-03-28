@@ -1,5 +1,7 @@
 ﻿using System;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
 using _Archero.Develop.Runtime.UI.Core;
+using _Archero.Develop.Runtime.UI.Gameplay.AbilitySelectPopup;
 using _Archero.Develop.Runtime.UI.Gameplay.ResultPopups;
 using UnityEngine;
 
@@ -36,6 +38,14 @@ namespace _Archero.Develop.Runtime.UI.Gameplay
             DefeatPopupPresenter popupPresenter = _gameplayPresentersFactory.CreateDefeatPopupPresenter(view);
             OnPopupCreated(popupPresenter, view, closedCallback);
             return popupPresenter;
+        }
+
+        public AbilitySelectPopupPresenter OpenAbilitySelectPopup(Entity entity, int level, Action closedCallback = null)
+        {
+            AbilitySelectPopupView view = ViewsFactory.Create<AbilitySelectPopupView>(ViewIDs.AbilitySelectPopup, PopupLayer);
+            AbilitySelectPopupPresenter popup = _gameplayPresentersFactory.CreateAbilitySelectPopupPresenter(view, entity, level);
+            OnPopupCreated(popup, view, closedCallback);
+            return popup;
         }
     }
 }

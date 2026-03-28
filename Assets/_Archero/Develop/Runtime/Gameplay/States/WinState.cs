@@ -1,12 +1,11 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.Features.InputFeatures;
+using _Archero.Develop.Runtime.Gameplay.Features.PauseFeature;
 using _Archero.Develop.Runtime.Gameplay.Infrastructure;
 using _Archero.Develop.Runtime.Meta.Features.LevelsProgression;
 using _Archero.Develop.Runtime.UI.Gameplay;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.DataManagement.DataProviders;
-using _Archero.Develop.Runtime.Utilities.SceneManagement;
 using _Archero.Develop.Runtime.Utilities.StateMachineCore;
-using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Gameplay.States
 {
@@ -20,11 +19,12 @@ namespace _Archero.Develop.Runtime.Gameplay.States
 
         public WinState(
             IInputService inputService, 
+            IPauseService pauseService,
             LevelsProgressionService levelsProgressionService, 
             GameplayInputArgs gameplayInputArgs, 
             PlayerDataProvider playerDataProvider, 
             ICoroutinesPerformer coroutinesPerformer, 
-            GameplayPopupService gameplayPopupService) : base(inputService)
+            GameplayPopupService gameplayPopupService) : base(inputService, pauseService)
         {
             _levelsProgressionService = levelsProgressionService;
             _gameplayInputArgs = gameplayInputArgs;

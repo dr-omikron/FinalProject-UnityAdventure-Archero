@@ -21,7 +21,9 @@ namespace _Archero.Develop.Runtime.UI.Core
             { ViewIDs.WinPopup, "UI/Gameplay/ResultPopup/WinPopup" },
             { ViewIDs.DefeatPopup, "UI/Gameplay/ResultPopup/DefeatPopup" },
             { ViewIDs.SimpleHealthBar, "UI/Gameplay/HealthBars/SimpleHealthBar" },
-            { ViewIDs.HeroHealthBar, "UI/Gameplay/HealthBars/HeroHealthBar" }
+            { ViewIDs.HeroHealthBar, "UI/Gameplay/HealthBars/HeroHealthBar" },
+            { ViewIDs.SelectableAbilityView, "UI/Gameplay/AbilitySelectPopup/SelectionAbilityView" },
+            { ViewIDs.AbilitySelectPopup, "UI/Gameplay/AbilitySelectPopup/SelectionAbilityPopup" }
         };
 
         public ViewsFactory(ResourcesAssetsLoader resourcesAssetsLoader)

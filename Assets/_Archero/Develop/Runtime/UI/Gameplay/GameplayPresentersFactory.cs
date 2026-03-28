@@ -1,12 +1,20 @@
-﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+﻿using _Archero.Develop.Runtime.Configs.Abilities;
+using _Archero.Develop.Runtime.Configs.Gameplay;
+using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+using _Archero.Develop.Runtime.Gameplay.Features.AbilitiesDroppingFeature;
+using _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature;
+using _Archero.Develop.Runtime.Gameplay.Features.MainHero;
 using _Archero.Develop.Runtime.Gameplay.Features.StagesFeature;
 using _Archero.Develop.Runtime.Gameplay.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.UI.CommonViews;
 using _Archero.Develop.Runtime.UI.Core;
+using _Archero.Develop.Runtime.UI.Gameplay.AbilitySelectPopup;
+using _Archero.Develop.Runtime.UI.Gameplay.Experience;
 using _Archero.Develop.Runtime.UI.Gameplay.HealthDisplay;
 using _Archero.Develop.Runtime.UI.Gameplay.ResultPopups;
 using _Archero.Develop.Runtime.UI.Gameplay.Stages;
+using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.SceneManagement;
 
@@ -62,6 +70,34 @@ namespace _Archero.Develop.Runtime.UI.Gameplay
                 view,
                 this,
                 _container.Resolve<ViewsFactory>());
+        }
+
+        public SelectableAbilityPresenter CreateSelectableAbilityPresenter(
+            AbilityConfig abilityConfig,
+            SelectableAbilityView view,
+            Entity entity)
+        {
+            return new SelectableAbilityPresenter(abilityConfig, view, _container.Resolve<AbilityFactory>(), entity);
+        }
+
+        public AbilitySelectPopupPresenter CreateAbilitySelectPopupPresenter(AbilitySelectPopupView view, Entity entity, int level)
+        {
+            return new AbilitySelectPopupPresenter(
+                _container.Resolve<ICoroutinesPerformer>(),
+                view,
+                entity,
+                _container.Resolve<AbilityDropService>(),
+                this,
+                _container.Resolve<ViewsFactory>(), 
+                level);
+        }
+
+        public MainHeroExperiencePresenter CreateMainHeroExperiencePresenter(BarWithText view)
+        {
+            return new MainHeroExperiencePresenter(
+                _container.Resolve<MainHeroHolderService>(),
+                view,
+                _container.Resolve<ConfigsProviderService>().GetConfig<ExperienceForUpgradeLevelConfig>());
         }
     }
 }

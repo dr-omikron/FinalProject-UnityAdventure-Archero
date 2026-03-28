@@ -1,4 +1,5 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.Features.InputFeatures;
+using _Archero.Develop.Runtime.Gameplay.Features.PauseFeature;
 using _Archero.Develop.Runtime.UI.Gameplay;
 using _Archero.Develop.Runtime.Utilities.StateMachineCore;
 
@@ -10,7 +11,8 @@ namespace _Archero.Develop.Runtime.Gameplay.States
 
         public DefeatState(
             IInputService inputService, 
-            GameplayPopupService gameplayPopupService) : base(inputService)
+            IPauseService pauseService,
+            GameplayPopupService gameplayPopupService) : base(inputService, pauseService)
         {
             _gameplayPopupService = gameplayPopupService;
         }

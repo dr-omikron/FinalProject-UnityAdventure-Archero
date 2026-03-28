@@ -29,6 +29,7 @@ namespace _Archero.Develop.Runtime.Gameplay.States
         public void Dispose()
         {
             _isRunning = false;
+            _gameplayStateMachine.Exit();
             _gameplayStateMachine.Dispose();
         }
     }

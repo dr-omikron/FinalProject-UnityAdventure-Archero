@@ -1,10 +1,15 @@
-﻿using _Archero.Develop.Runtime.Configs.Gameplay.Levels;
+﻿using _Archero.Develop.Runtime.Configs.Abilities;
+using _Archero.Develop.Runtime.Configs.Gameplay.Levels;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using _Archero.Develop.Runtime.Gameplay.Features.AbilitiesDroppingFeature;
+using _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.AI;
 using _Archero.Develop.Runtime.Gameplay.Features.Enemies;
 using _Archero.Develop.Runtime.Gameplay.Features.InputFeatures;
+using _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.MainHero;
+using _Archero.Develop.Runtime.Gameplay.Features.PauseFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.StagesFeature;
 using _Archero.Develop.Runtime.Gameplay.States;
 using _Archero.Develop.Runtime.Infrastructure.DI;
@@ -13,6 +18,7 @@ using _Archero.Develop.Runtime.UI.Core;
 using _Archero.Develop.Runtime.UI.Gameplay;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
+using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
@@ -44,6 +50,11 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateGameplayScreenPresenter).NonLazy();
             container.RegisterAsSingle(CreateGameplayUIRoot).NonLazy();
             container.RegisterAsSingle(CreateGameplayPopupService);
+            container.RegisterAsSingle(CreateAbilityFactory);
+            container.RegisterAsSingle(CreateAbilityDropService);
+            container.RegisterAsSingle(CreateAbilitiesDroppingRulesService);
+            container.RegisterAsSingle(CreateDropAbilityOnMainHeroLevelUpService).NonLazy();
+            container.RegisterAsSingle<IPauseService>(CreateTimeScalePauseService);
         }
 
         private static EntitiesLifeContext CreateEntitiesLifeContext(DIContainer c)
@@ -135,5 +146,30 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
                 c.Resolve<GameplayUIRoot>(),
                 c.Resolve<GameplayPresentersFactory>());
         }
+
+        private static AbilityFactory CreateAbilityFactory(DIContainer c)
+            => new AbilityFactory(c);
+
+        private static AbilityDropService CreateAbilityDropService(DIContainer c)
+        {
+            return new AbilityDropService(
+                c.Resolve<ConfigsProviderService>().GetConfig<AbilitiesConfigsContainer>(),
+                c.Resolve<AbilitiesDroppingRulesService>());
+        }
+
+        private static AbilitiesDroppingRulesService CreateAbilitiesDroppingRulesService(DIContainer c) 
+            => new AbilitiesDroppingRulesService();
+
+        private static DropAbilityOnMainHeroLevelUpService CreateDropAbilityOnMainHeroLevelUpService(DIContainer c)
+        {
+            return new DropAbilityOnMainHeroLevelUpService(
+                c.Resolve<MainHeroHolderService>(),
+                c.Resolve<GameplayPopupService>(),
+                c.Resolve<ICoroutinesPerformer>(),
+                c.Resolve<IPauseService>());
+        }
+
+        private static TimeScalePauseService CreateTimeScalePauseService(DIContainer c)
+            => new TimeScalePauseService();
     }
 }
