@@ -1,4 +1,5 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+using _Archero.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Gameplay.Common
@@ -11,5 +12,10 @@ namespace _Archero.Develop.Runtime.Gameplay.Common
     public class TransformComponent : IEntityComponent
     {
         public Transform Value;
+    }
+
+    public class Owner : IEntityComponent
+    {
+        public ReactiveVariable<Entity> Value;
     }
 }

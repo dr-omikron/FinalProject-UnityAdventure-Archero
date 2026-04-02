@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using _Archero.Develop.Runtime.Configs.Abilities;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
 using _Archero.Develop.Runtime.Gameplay.Features.AbilitiesDroppingFeature;
 using _Archero.Develop.Runtime.UI.Core;
@@ -52,7 +51,7 @@ namespace _Archero.Develop.Runtime.UI.Gameplay.AbilitySelectPopup
 
             _view.SelectButtonClicked += OnSelectButtonClicked;
 
-            List<AbilityConfig> dropOptions = _abilityDropService.Drop(AbilitiesCount, _entity);
+            List<AbilityDropOption> dropOptions = _abilityDropService.Drop(AbilitiesCount, _entity);
 
             for (int i = 0; i < dropOptions.Count; i++)
             {
@@ -60,7 +59,7 @@ namespace _Archero.Develop.Runtime.UI.Gameplay.AbilitySelectPopup
                 _view.AbilityListView.Add(selectableAbilityView);
 
                 SelectableAbilityPresenter presenter = _gameplayPresentersFactory
-                    .CreateSelectableAbilityPresenter(dropOptions[i], selectableAbilityView, _entity);
+                    .CreateSelectableAbilityPresenter(dropOptions[i].Config, selectableAbilityView, _entity, dropOptions[i].Level);
 
                 presenter.Selected += OnPresenterSelected;
                 presenter.Initialize();

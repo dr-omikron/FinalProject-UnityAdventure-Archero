@@ -21,7 +21,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.Attack
         public void OnInit(Entity entity)
         {
             _attackDelayEndEvent = entity.AttackDelayEndEvent;
-            _delay = entity.AttackDelayTime;
+            _delay = entity.AttackDelayModifiedTime;
             _attackProcessCurrentTime = entity.AttackProcessCurrentTime;
             _startAttackEvent = entity.StartAttackEvent;
 

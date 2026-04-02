@@ -18,7 +18,7 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot
         public void OnInit(Entity entity)
         {
             _currentTime = entity.AttackCooldownCurrentTime;
-            _initialTime = entity.AttackCooldownInitialTime;
+            _initialTime = entity.AttackCooldownModifiedTime;
             _inAttackCooldown = entity.InAttackCooldown;
             _endAttackEvent = entity.EndAttackEvent;
 

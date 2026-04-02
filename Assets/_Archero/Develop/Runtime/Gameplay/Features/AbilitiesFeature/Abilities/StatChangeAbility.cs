@@ -9,7 +9,10 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.AbilitiesFeature.Abilities
         private readonly Entity _entity;
         private readonly StatChangeAbilityConfig _config;
 
-        public StatChangeAbility(Entity entity, StatChangeAbilityConfig config) : base(config.ID)
+        public StatChangeAbility(
+            Entity entity, 
+            StatChangeAbilityConfig config, 
+            int currentLevel) : base(config.ID, currentLevel, config.MaxLevel)
         {
             _entity = entity;
             _config = config;

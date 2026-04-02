@@ -19,18 +19,24 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.AbilitiesDroppingFeature
             _abilitiesDroppingRules = abilitiesDroppingRules;
         }
 
-        public List<AbilityConfig> Drop(int count, Entity entity)
+        public List<AbilityDropOption> Drop(int count, Entity entity)
         {
-            List<AbilityConfig> availableAbilities
-                = new List<AbilityConfig>(_abilitiesConfigsContainer
-                    .AbilitiesConfigs
-                    .Where(abilityOption => _abilitiesDroppingRules.IsAvailable(abilityOption, entity)));
+            List<AbilityDropOption> availableAbilities = new List<AbilityDropOption>();
 
-            List<AbilityConfig> selectedAbilities = new List<AbilityConfig>();
+            foreach (AbilityConfig abilitiesConfig in _abilitiesConfigsContainer.AbilitiesConfigs)
+            {
+                for (int level = 1; level < abilitiesConfig.MaxLevel + 1; level++)
+                {
+                    if(_abilitiesDroppingRules.IsAvailable(abilitiesConfig, entity, level))
+                        availableAbilities.Add(new AbilityDropOption(abilitiesConfig, level));
+                }
+            }
+
+            List<AbilityDropOption> selectedAbilities = new List<AbilityDropOption>();
 
             for (int i = 0; i < count; i++)
             {
-                AbilityConfig selectedAbility = availableAbilities[Random.Range(0, availableAbilities.Count)];
+                AbilityDropOption selectedAbility = availableAbilities[Random.Range(0, availableAbilities.Count)];
                 selectedAbilities.Add(selectedAbility);
                 availableAbilities.Remove(selectedAbility);
             }

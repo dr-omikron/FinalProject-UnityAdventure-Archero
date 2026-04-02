@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using _Archero.Develop.Runtime.Gameplay.Features.StatsFeature;
 using _Archero.Develop.Runtime.Meta.Features.Wallet;
 
 namespace _Archero.Develop.Runtime.Utilities.DataManagement
@@ -8,5 +9,6 @@ namespace _Archero.Develop.Runtime.Utilities.DataManagement
     {
         public Dictionary<CurrencyType, int> WalletData;
         public List<int> CompletedLevels;
+        public Dictionary<StatTypes, int> StatsUpgradeLevels;
     }
 }

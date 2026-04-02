@@ -1,10 +1,12 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.Features.InputFeatures;
+using _Archero.Develop.Runtime.Gameplay.Features.LootFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.MainHero;
 using _Archero.Develop.Runtime.Gameplay.Features.PauseFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.StagesFeature;
 using _Archero.Develop.Runtime.Gameplay.Infrastructure;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Meta.Features.LevelsProgression;
+using _Archero.Develop.Runtime.Meta.Features.Wallet;
 using _Archero.Develop.Runtime.UI.Gameplay;
 using _Archero.Develop.Runtime.Utilities.Conditions;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -19,6 +21,13 @@ namespace _Archero.Develop.Runtime.Gameplay.States
         public GameplayStatesFactory(DIContainer container)
         {
             _container = container;
+        }
+
+        public CollectLootState CreateCollectLootState()
+        {
+            return new CollectLootState(
+                _container.Resolve<LootPullingService>(),
+                _container.Resolve<MainHeroHolderService>());
         }
 
         public PreparationState CreatePreparationState()
@@ -40,7 +49,9 @@ namespace _Archero.Develop.Runtime.Gameplay.States
                 inputArgs,
                 _container.Resolve<PlayerDataProvider>(),
                 _container.Resolve<ICoroutinesPerformer>(),
-                _container.Resolve<GameplayPopupService>());
+                _container.Resolve<GameplayPopupService>(),
+                _container.Resolve<WalletService>(),
+                _container.Resolve<MainHeroHolderService>());
         }
 
         public DefeatState CreateDefeatState()
@@ -92,7 +103,9 @@ namespace _Archero.Develop.Runtime.Gameplay.States
         {
             PreparationTriggerService preparationTriggerService = _container.Resolve<PreparationTriggerService>();
             StageProviderService stageProviderService = _container.Resolve<StageProviderService>();
+            LootPullingService lootPullingService = _container.Resolve<LootPullingService>();
 
+            CollectLootState collectLootState = CreateCollectLootState();
             PreparationState preparationState = CreatePreparationState();
             StageProcessState stageProcessState = CreateStageProcessState();
 
@@ -100,16 +113,21 @@ namespace _Archero.Develop.Runtime.Gameplay.States
                 .Add(new FuncCondition(() => preparationTriggerService.HasMainHeroContact.Value))
                 .Add(new FuncCondition(() => stageProviderService.HasNextStage));
 
-            FuncCondition stageProcessToPreparationCondition = new FuncCondition(() =>
+            FuncCondition stageProcessToCollectStateCondition = new FuncCondition(() =>
                 stageProviderService.CurrentStageResult.Value == StageResult.Completed);
+
+            FuncCondition collectStateToPreparationStateCondition = new FuncCondition(() =>
+                lootPullingService.AllCollected.Value);
 
             GameplayStateMachine coreLoopState = new GameplayStateMachine();
 
             coreLoopState.AddState(preparationState);
+            coreLoopState.AddState(collectLootState);
             coreLoopState.AddState(stageProcessState);
-            
+
             coreLoopState.AddTransition(preparationState, stageProcessState, preparationToStageProcessCondition);
-            coreLoopState.AddTransition(stageProcessState, preparationState, stageProcessToPreparationCondition);
+            coreLoopState.AddTransition(stageProcessState, collectLootState, stageProcessToCollectStateCondition);
+            coreLoopState.AddTransition(collectLootState, preparationState, collectStateToPreparationStateCondition);
 
             return coreLoopState;
         }

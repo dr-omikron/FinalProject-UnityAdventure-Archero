@@ -1,7 +1,9 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.Features.InputFeatures;
+using _Archero.Develop.Runtime.Gameplay.Features.MainHero;
 using _Archero.Develop.Runtime.Gameplay.Features.PauseFeature;
 using _Archero.Develop.Runtime.Gameplay.Infrastructure;
 using _Archero.Develop.Runtime.Meta.Features.LevelsProgression;
+using _Archero.Develop.Runtime.Meta.Features.Wallet;
 using _Archero.Develop.Runtime.UI.Gameplay;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
 using _Archero.Develop.Runtime.Utilities.DataManagement.DataProviders;
@@ -16,6 +18,9 @@ namespace _Archero.Develop.Runtime.Gameplay.States
         private readonly PlayerDataProvider _playerDataProvider;
         private readonly ICoroutinesPerformer _coroutinesPerformer;
         private readonly GameplayPopupService _gameplayPopupService;
+        
+        private readonly WalletService _walletService;
+        private readonly MainHeroHolderService _mainHeroHolderService;
 
         public WinState(
             IInputService inputService, 
@@ -24,19 +29,24 @@ namespace _Archero.Develop.Runtime.Gameplay.States
             GameplayInputArgs gameplayInputArgs, 
             PlayerDataProvider playerDataProvider, 
             ICoroutinesPerformer coroutinesPerformer, 
-            GameplayPopupService gameplayPopupService) : base(inputService, pauseService)
+            GameplayPopupService gameplayPopupService, 
+            WalletService walletService, 
+            MainHeroHolderService mainHeroHolderService) : base(inputService, pauseService)
         {
             _levelsProgressionService = levelsProgressionService;
             _gameplayInputArgs = gameplayInputArgs;
             _playerDataProvider = playerDataProvider;
             _coroutinesPerformer = coroutinesPerformer;
             _gameplayPopupService = gameplayPopupService;
+            _walletService = walletService;
+            _mainHeroHolderService = mainHeroHolderService;
         }
 
         public override void Enter()
         {
             base.Enter();
 
+            _walletService.Add(CurrencyType.Gold, _mainHeroHolderService.MainHero.Coins.Value);
             _levelsProgressionService.AddLevelToCompleted(_gameplayInputArgs.LevelNumber);
             _coroutinesPerformer.StartPerform(_playerDataProvider.SaveAsync());
             _gameplayPopupService.OpenWinPopup();

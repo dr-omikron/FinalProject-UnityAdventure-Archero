@@ -5,7 +5,9 @@ using _Archero.Develop.Runtime.Gameplay.Features.ApplyDamage;
 using _Archero.Develop.Runtime.Gameplay.Features.Attack;
 using _Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot;
 using _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage;
+using _Archero.Develop.Runtime.Gameplay.Features.InputFeatures;
 using _Archero.Develop.Runtime.Gameplay.Features.LifeCycle;
+using _Archero.Develop.Runtime.Gameplay.Features.LootFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.MovementFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.Sensors;
 using _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures;
@@ -34,18 +36,11 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
             _monoEntityFactory = _container.Resolve<MonoEntityFactory>();
         }
 
-        public Entity CreateHero(Vector3 position, HeroConfig config)
+        public Entity CreateHero(Vector3 position, HeroConfig config, Dictionary<StatTypes, float> baseStats)
         {
             Entity entity = CreateEmpty();
 
             _monoEntityFactory.Create(entity, position, config.PrefabPath);
-
-            Dictionary<StatTypes, float> baseStats = new Dictionary<StatTypes, float>
-            {
-                { StatTypes.MoveSpeed, config.MoveSpeed },
-                { StatTypes.MaxHealth, config.MaxHealth },
-                { StatTypes.Damage, config.InstantAttackDamage }
-            };
 
             Dictionary<StatTypes, float> modifiedStats = new Dictionary<StatTypes, float>(baseStats);
 
@@ -58,7 +53,7 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddIsMoving()
                 .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
                 .AddRotationDirection()
-                .AddMaxHealth(new ReactiveVariable<float>(config.MaxHealth))
+                .AddMaxHealth(new ReactiveVariable<float>(baseStats[StatTypes.MaxHealth]))
                 .AddCurrentHealth(new ReactiveVariable<float>(baseStats[StatTypes.MaxHealth]))
                 .AddIsDead()
                 .AddInDeathProcess()
@@ -67,18 +62,24 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
                 .AddAttackProcessInitialTime(new ReactiveVariable<float>(config.AttackProcessTime))
+                .AddAttackProcessModifiedTime(new ReactiveVariable<float>(config.AttackProcessTime))
                 .AddAttackProcessCurrentTime()
                 .AddInAttackProcess()
+                .AddInstantShootingDirection(new InstantShootingDirectionArgs(
+                    new InstantShotDirectionArgs(0, 1)))
                 .AddStartAttackRequest()
                 .AddStartAttackEvent()
                 .AddEndAttackEvent()
                 .AddAttackDelayEndEvent()
                 .AddAttackDelayTime(new ReactiveVariable<float>(config.AttackDelayTime))
+                .AddAttackDelayModifiedTime(new ReactiveVariable<float>(config.AttackDelayTime))
                 .AddInstantAttackDamage(new ReactiveVariable<float>(baseStats[StatTypes.Damage]))
                 .AddAttackCanceledEvent()
                 .AddAttackCooldownInitialTime(new ReactiveVariable<float>(config.AttackCooldown))
+                .AddAttackCooldownModifiedTime(new ReactiveVariable<float>(config.AttackCooldown))
                 .AddAttackCooldownCurrentTime()
-                .AddInAttackCooldown();
+                .AddInAttackCooldown()
+                .AddAttackPerSeconds(new ReactiveVariable<float>(baseStats[StatTypes.AttackPerSecond]));
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -117,6 +118,8 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 
             entity
                 .AddSystem(new StatEffectsApplierSystem())
+                .AddSystem(new AttackPerSecondStatSynchronizerSystem())
+                .AddSystem(new AttackTimeByAttackSpeedSynchronizerSystem())
                 .AddSystem(new MoveSpeedStatSynchronizerSystem())
                 .AddSystem(new DamageStatSynchronizerSystem())
                 .AddSystem(new MaxHealthStatSynchronizerSystem())
@@ -126,7 +129,7 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new AttackCanceledSystem())
                 .AddSystem(new AttackProcessTimerSystem())
                 .AddSystem(new AttackDelayEndTriggerSystem())
-                .AddSystem(new InstantShootSystem(this))
+                .AddSystem(new DirectionsInstantShootSystem(this))
                 .AddSystem(new EndAttackSystem())
                 .AddSystem(new AttackCooldownTimerSystem())
                 .AddSystem(new ApplyDamageSystem())
@@ -215,6 +218,8 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
             _monoEntityFactory.Create(entity, position, "Entities/Projectile");
 
             entity
+                .AddIsProjectile()
+                .AddOwner(new ReactiveVariable<Entity>(owner))
                 .AddMoveDirection(new ReactiveVariable<Vector3>(direction))
                 .AddMoveSpeed(new ReactiveVariable<float>(25))
                 .AddIsMoving()
@@ -236,9 +241,9 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
             ICompositeCondition canRotate = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
-            ICompositeCondition mustDie = new CompositeCondition(LogicOperations.Or)
-                .Add(new FuncCondition(() => entity.IsTouchDeathMask.Value))
-                .Add(new FuncCondition(() => entity.IsTouchAnotherTeam.Value));
+            ICompositeCondition mustDie = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsTouchDeathMask.Value), 0)
+                .Add(new FuncCondition(() => entity.IsTouchAnotherTeam.Value), 10, LogicOperations.Or);
 
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
@@ -282,6 +287,42 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_colliderRegistryService));
 
             _entitiesLifeContext.Add(entity);
+
+            return entity;
+        }
+
+        public Entity CreatePullable(string prefabPath, Vector3 position)
+        {
+            Entity entity = CreateEmpty();
+
+            _monoEntityFactory.Create(entity, position, prefabPath);
+
+            entity
+                .AddIsPullable()
+                .AddIsPullingProcess()
+                .AddInSpawnProcess(new ReactiveVariable<bool>(true))
+                .AddCurrentTarget(new ReactiveVariable<Entity>(null))
+                .AddMoveDirection()
+                .AddMoveSpeed(new ReactiveVariable<float>(12))
+                .AddIsMoving()
+                .AddIsCollected();
+
+            ICompositeCondition moveCondition = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsPullingProcess.Value))
+                .Add(new FuncCondition(() => entity.InSpawnProcess.Value == false));
+
+            ICompositeCondition mustSelfRelease = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsCollected.Value));
+
+            entity
+                .AddCanMove(moveCondition)
+                .AddMustSelfRelease(mustSelfRelease);
+
+            entity
+                .AddSystem(new GenerateMoveDirectionToTargetSystem())
+                .AddSystem(new RigidbodyMovementSystem())
+                .AddSystem(new CollectedOnNearToTargetSystem())
+                .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
             return entity;
         }

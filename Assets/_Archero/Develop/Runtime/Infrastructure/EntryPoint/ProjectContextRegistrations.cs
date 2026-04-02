@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Meta.Features.LevelsProgression;
+using _Archero.Develop.Runtime.Meta.Features.StatsUpgrade;
 using _Archero.Develop.Runtime.Meta.Features.Wallet;
 using _Archero.Develop.Runtime.UI;
 using _Archero.Develop.Runtime.UI.Core;
@@ -39,6 +40,7 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
             container.RegisterAsSingle(CreateViewsFactory);
             container.RegisterAsSingle(CreateTimerServiceFactory);
             container.RegisterAsSingle(CreateLevelsProgressionService).NonLazy();
+            container.RegisterAsSingle(CreateStatsUpgradeService).NonLazy();
         }
 
         private static CoroutinesPerformer CreateCoroutinesPerformer(DIContainer c)
@@ -110,5 +112,8 @@ namespace _Archero.Develop.Runtime.Infrastructure.EntryPoint
 
         private static TimerServiceFactory CreateTimerServiceFactory(DIContainer c)
             => new TimerServiceFactory(c);
+        
+        private static StatsUpgradeService CreateStatsUpgradeService(DIContainer c)
+            => new StatsUpgradeService(c.Resolve<PlayerDataProvider>(), c.Resolve<ConfigsProviderService>());
     }
 }

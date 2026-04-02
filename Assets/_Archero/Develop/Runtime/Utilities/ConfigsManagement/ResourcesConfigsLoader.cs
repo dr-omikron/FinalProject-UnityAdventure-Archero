@@ -5,6 +5,8 @@ using _Archero.Develop.Runtime.Configs.Abilities;
 using _Archero.Develop.Runtime.Configs.Gameplay;
 using _Archero.Develop.Runtime.Configs.Gameplay.Entities;
 using _Archero.Develop.Runtime.Configs.Gameplay.Levels;
+using _Archero.Develop.Runtime.Configs.Loot;
+using _Archero.Develop.Runtime.Configs.Meta.Stats;
 using _Archero.Develop.Runtime.Configs.Meta.Wallet;
 using _Archero.Develop.Runtime.Utilities.AssetsManagement;
 using UnityEngine;
@@ -23,7 +25,10 @@ namespace _Archero.Develop.Runtime.Utilities.ConfigsManagement
             { typeof(GhostConfig), "Configs/Gameplay/Entities/Characters/GhostConfig" },
             { typeof(HeroConfig), "Configs/Gameplay/Entities/Characters/HeroConfig" },
             { typeof(AbilitiesConfigsContainer), "Configs/Gameplay/Abilities/AbilitiesConfigsContainer" },
-            { typeof(ExperienceForUpgradeLevelConfig), "Configs/Gameplay/ExperienceForUpgradeLevelConfig" }
+            { typeof(ExperienceForUpgradeLevelConfig), "Configs/Gameplay/ExperienceForUpgradeLevelConfig" },
+            { typeof(LootListConfig), "Configs/Gameplay/Loot/LootListConfig" },
+            { typeof(PlayerStatsUpgradeConfig), "Configs/Meta/Stats/PlayerStatsUpgradeConfig" },
+            { typeof(StatsViewConfig), "Configs/Meta/Stats/StatsViewConfig" }
         };
 
         public ResourcesConfigsLoader(ResourcesAssetsLoader resourcesAssetsLoader)

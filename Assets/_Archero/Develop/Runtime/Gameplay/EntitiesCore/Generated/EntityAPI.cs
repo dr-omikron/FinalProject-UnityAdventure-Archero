@@ -98,6 +98,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.StatsEffects {Value = value});
 		}
 
+		public _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.AttackPerSeconds AttackPerSecondsC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.StatsFeature.AttackPerSeconds>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> AttackPerSeconds => AttackPerSecondsC.Value;
+
+		public bool TryGetAttackPerSeconds(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.AttackPerSeconds component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackPerSeconds()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.AttackPerSeconds { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackPerSeconds(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.StatsFeature.AttackPerSeconds {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnInitialTime SpawnInitialTimeC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.SpawnFeatures.SpawnInitialTime>();
 
 		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> SpawnInitialTime => SpawnInitialTimeC.Value;
@@ -495,6 +519,145 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.MainHero.IsMainHero {Value = value});
 		}
 
+		public _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsPullable IsPullableC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsPullable>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> IsPullable => IsPullableC.Value;
+
+		public bool TryGetIsPullable(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsPullable component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsPullable()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsPullable { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsPullable(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsPullable {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsPullingProcess IsPullingProcessC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsPullingProcess>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> IsPullingProcess => IsPullingProcessC.Value;
+
+		public bool TryGetIsPullingProcess(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsPullingProcess component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsPullingProcess()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsPullingProcess { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsPullingProcess(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsPullingProcess {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsCollected IsCollectedC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsCollected>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> IsCollected => IsCollectedC.Value;
+
+		public bool TryGetIsCollected(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsCollected component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsCollected()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsCollected { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsCollected(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.IsCollected {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.LootFeature.Coins CoinsC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LootFeature.Coins>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> Coins => CoinsC.Value;
+
+		public bool TryGetCoins(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.LootFeature.Coins component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCoins()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.Coins { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCoins(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.Coins {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.LootFeature.LootIsDropped LootIsDroppedC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LootFeature.LootIsDropped>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> LootIsDropped => LootIsDroppedC.Value;
+
+		public bool TryGetLootIsDropped(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.LootFeature.LootIsDropped component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddLootIsDropped()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.LootIsDropped { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddLootIsDropped(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.LootIsDropped {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.LootFeature.CanDropLoot CanDropLootC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LootFeature.CanDropLoot>();
+
+		public _Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition CanDropLoot => CanDropLootC.Value;
+
+		public bool TryGetCanDropLoot(out _Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.LootFeature.CanDropLoot component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanDropLoot(_Archero.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.LootFeature.CanDropLoot {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.LifeCycle.CurrentHealth CurrentHealthC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.LifeCycle.CurrentHealth>();
 
 		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> CurrentHealth => CurrentHealthC.Value;
@@ -792,6 +955,97 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.ContactTakeDamage.BodyContactDamage {Value = value});
 		}
 
+		public _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.LayerToBounceReaction LayerToBounceReactionC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.BounceFeature.LayerToBounceReaction>();
+
+		public UnityEngine.LayerMask LayerToBounceReaction => LayerToBounceReactionC.Value;
+
+		public bool TryGetLayerToBounceReaction(out UnityEngine.LayerMask value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.LayerToBounceReaction component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(UnityEngine.LayerMask);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddLayerToBounceReaction(UnityEngine.LayerMask value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.LayerToBounceReaction {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.BounceEvent BounceEventC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.BounceFeature.BounceEvent>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<UnityEngine.RaycastHit> BounceEvent => BounceEventC.Value;
+
+		public bool TryGetBounceEvent(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<UnityEngine.RaycastHit> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.BounceEvent component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<UnityEngine.RaycastHit>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBounceEvent()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.BounceEvent { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<UnityEngine.RaycastHit>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBounceEvent(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent<UnityEngine.RaycastHit> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.BounceEvent {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.BounceCount BounceCountC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.BounceFeature.BounceCount>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> BounceCount => BounceCountC.Value;
+
+		public bool TryGetBounceCount(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.BounceCount component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBounceCount()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.BounceCount { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBounceCount(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.BounceFeature.BounceCount {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.Attack.IsProjectile IsProjectileC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Attack.IsProjectile>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> IsProjectile => IsProjectileC.Value;
+
+		public bool TryGetIsProjectile(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.Attack.IsProjectile component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsProjectile()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.IsProjectile { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsProjectile(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.IsProjectile {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.Attack.StartAttackRequest StartAttackRequestC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Attack.StartAttackRequest>();
 
 		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveEvent StartAttackRequest => StartAttackRequestC.Value;
@@ -907,6 +1161,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackProcessInitialTime {Value = value});
 		}
 
+		public _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackProcessModifiedTime AttackProcessModifiedTimeC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Attack.AttackProcessModifiedTime>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> AttackProcessModifiedTime => AttackProcessModifiedTimeC.Value;
+
+		public bool TryGetAttackProcessModifiedTime(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackProcessModifiedTime component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackProcessModifiedTime()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackProcessModifiedTime { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackProcessModifiedTime(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackProcessModifiedTime {Value = value});
+		}
+
 		public _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackProcessCurrentTime AttackProcessCurrentTimeC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Attack.AttackProcessCurrentTime>();
 
 		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> AttackProcessCurrentTime => AttackProcessCurrentTimeC.Value;
@@ -953,6 +1231,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackDelayTime(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
 		{
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackDelayTime {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackDelayModifiedTime AttackDelayModifiedTimeC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Attack.AttackDelayModifiedTime>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> AttackDelayModifiedTime => AttackDelayModifiedTimeC.Value;
+
+		public bool TryGetAttackDelayModifiedTime(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackDelayModifiedTime component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackDelayModifiedTime()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackDelayModifiedTime { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackDelayModifiedTime(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackDelayModifiedTime {Value = value});
 		}
 
 		public _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndEvent AttackDelayEndEventC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Attack.AttackDelayEndEvent>();
@@ -1025,6 +1327,25 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddInstantAttackDamage(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
 		{
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.InstantAttackDamage {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.Attack.InstantShootingDirection InstantShootingDirectionC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Attack.InstantShootingDirection>();
+
+		public _Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot.InstantShootingDirectionArgs InstantShootingDirection => InstantShootingDirectionC.Value;
+
+		public bool TryGetInstantShootingDirection(out _Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot.InstantShootingDirectionArgs value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.Attack.InstantShootingDirection component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot.InstantShootingDirectionArgs);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddInstantShootingDirection(_Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot.InstantShootingDirectionArgs value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.InstantShootingDirection {Value = value});
 		}
 
 		public _Archero.Develop.Runtime.Gameplay.Features.Attack.ShootPoint ShootPointC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Attack.ShootPoint>();
@@ -1111,6 +1432,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackCooldownInitialTime(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
 		{
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackCooldownInitialTime {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackCooldownModifiedTime AttackCooldownModifiedTimeC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Attack.AttackCooldownModifiedTime>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> AttackCooldownModifiedTime => AttackCooldownModifiedTimeC.Value;
+
+		public bool TryGetAttackCooldownModifiedTime(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackCooldownModifiedTime component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackCooldownModifiedTime()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackCooldownModifiedTime { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAttackCooldownModifiedTime(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackCooldownModifiedTime {Value = value});
 		}
 
 		public _Archero.Develop.Runtime.Gameplay.Features.Attack.AttackCooldownCurrentTime AttackCooldownCurrentTimeC => GetComponent<_Archero.Develop.Runtime.Gameplay.Features.Attack.AttackCooldownCurrentTime>();
@@ -1312,6 +1657,30 @@ namespace _Archero.Develop.Runtime.Gameplay.EntitiesCore
 		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddTransform(UnityEngine.Transform value)
 		{
 			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Common.TransformComponent {Value = value});
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.Common.Owner OwnerC => GetComponent<_Archero.Develop.Runtime.Gameplay.Common.Owner>();
+
+		public _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity> Owner => OwnerC.Value;
+
+		public bool TryGetOwner(out _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		{
+			bool result = TryGetComponent(out _Archero.Develop.Runtime.Gameplay.Common.Owner component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity>);
+			return result;
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddOwner()
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Common.Owner { Value = new _Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity>() });
+		}
+
+		public _Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity AddOwner(_Archero.Develop.Runtime.Utilities.Reactive.ReactiveVariable<_Archero.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		{
+			return AddComponent(new _Archero.Develop.Runtime.Gameplay.Common.Owner {Value = value});
 		}
 
 	}

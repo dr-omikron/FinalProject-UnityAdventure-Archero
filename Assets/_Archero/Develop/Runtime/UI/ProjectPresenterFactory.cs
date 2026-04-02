@@ -1,11 +1,15 @@
-﻿using _Archero.Develop.Runtime.Configs.Meta.Wallet;
+﻿using _Archero.Develop.Runtime.Configs.Meta.Stats;
+using _Archero.Develop.Runtime.Configs.Meta.Wallet;
+using _Archero.Develop.Runtime.Gameplay.Features.StatsFeature;
 using _Archero.Develop.Runtime.Infrastructure.DI;
 using _Archero.Develop.Runtime.Meta.Features.LevelsProgression;
+using _Archero.Develop.Runtime.Meta.Features.StatsUpgrade;
 using _Archero.Develop.Runtime.Meta.Features.Wallet;
 using _Archero.Develop.Runtime.UI.CommonViews;
 using _Archero.Develop.Runtime.UI.Core;
 using _Archero.Develop.Runtime.UI.Core.TestPopup;
 using _Archero.Develop.Runtime.UI.LevelMenuPopup;
+using _Archero.Develop.Runtime.UI.StatsUpgradePopup;
 using _Archero.Develop.Runtime.UI.Wallet;
 using _Archero.Develop.Runtime.Utilities.ConfigsManagement;
 using _Archero.Develop.Runtime.Utilities.CoroutinesManagement;
@@ -67,6 +71,34 @@ namespace _Archero.Develop.Runtime.UI
                 this,
                 _container.Resolve<ViewsFactory>(),
                 view);
+        }
+
+        public UpgradableStatPresenter CreateUpgradableStatPresenter(UpgradableStatView view, StatTypes type)
+        {
+            return new UpgradableStatPresenter(
+                view,
+                type,
+                _container.Resolve<ConfigsProviderService>().GetConfig<StatsViewConfig>(),
+                _container.Resolve<StatsUpgradeService>(),
+                _container.Resolve<WalletService>(),
+                _container.Resolve<ConfigsProviderService>().GetConfig<CurrencyIconsConfig>());
+        }
+
+        public StatsUpgradePopupPresenter CreateStatsUpgradePopupPresenter(StatsUpgradePopupView view)
+        {
+            return new StatsUpgradePopupPresenter(
+                _container.Resolve<ICoroutinesPerformer>(),
+                view,
+                _container.Resolve<ProjectPresenterFactory>(),
+                _container.Resolve<StatsUpgradeService>(),
+                _container.Resolve<ViewsFactory>());
+        }
+
+        public CharacterPreviewPresenter CreateCharacterPreviewPresenter()
+        {
+            return new CharacterPreviewPresenter(
+                _container.Resolve<SceneLoaderService>(),
+                _container.Resolve<ICoroutinesPerformer>());
         }
     }
 }

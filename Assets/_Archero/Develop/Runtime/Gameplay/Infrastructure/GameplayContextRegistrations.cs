@@ -1,5 +1,6 @@
 ﻿using _Archero.Develop.Runtime.Configs.Abilities;
 using _Archero.Develop.Runtime.Configs.Gameplay.Levels;
+using _Archero.Develop.Runtime.Configs.Loot;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
 using _Archero.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using _Archero.Develop.Runtime.Gameplay.Features.AbilitiesDroppingFeature;
@@ -8,6 +9,7 @@ using _Archero.Develop.Runtime.Gameplay.Features.AI;
 using _Archero.Develop.Runtime.Gameplay.Features.Enemies;
 using _Archero.Develop.Runtime.Gameplay.Features.InputFeatures;
 using _Archero.Develop.Runtime.Gameplay.Features.LevelUpFeature;
+using _Archero.Develop.Runtime.Gameplay.Features.LootFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.MainHero;
 using _Archero.Develop.Runtime.Gameplay.Features.PauseFeature;
 using _Archero.Develop.Runtime.Gameplay.Features.StagesFeature;
@@ -55,6 +57,9 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateAbilitiesDroppingRulesService);
             container.RegisterAsSingle(CreateDropAbilityOnMainHeroLevelUpService).NonLazy();
             container.RegisterAsSingle<IPauseService>(CreateTimeScalePauseService);
+            container.RegisterAsSingle(CreateLootFactory);
+            container.RegisterAsSingle(CreateDropLootService);
+            container.RegisterAsSingle(CreateLootPullingService).NonLazy();
         }
 
         private static EntitiesLifeContext CreateEntitiesLifeContext(DIContainer c)
@@ -171,5 +176,17 @@ namespace _Archero.Develop.Runtime.Gameplay.Infrastructure
 
         private static TimeScalePauseService CreateTimeScalePauseService(DIContainer c)
             => new TimeScalePauseService();
+
+        private static LootFactory CreateLootFactory(DIContainer c) => new LootFactory(c);
+
+        private static DropLootService CreateDropLootService(DIContainer c)
+        {
+            return new DropLootService(
+                c.Resolve<ConfigsProviderService>().GetConfig<LootListConfig>(),
+                c.Resolve<LootFactory>());
+        }
+
+        private static LootPullingService CreateLootPullingService(DIContainer c)
+            => new LootPullingService(c.Resolve<EntitiesLifeContext>());
     }
 }

@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Archero/Scenes/Gameplay.unity
     guid: b513927a48b26db4798749842efddb8d
+  - enabled: 1
+    path: Assets/_Archero/Scenes/CharacterPreviewScene.unity
+    guid: e69a1bd65c9ddaf43ab8f4f389d2af53
   m_configObjects: {}

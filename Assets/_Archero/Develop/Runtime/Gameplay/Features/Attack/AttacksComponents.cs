@@ -1,10 +1,16 @@
 ﻿using _Archero.Develop.Runtime.Gameplay.EntitiesCore;
+using _Archero.Develop.Runtime.Gameplay.Features.Attack.Shoot;
 using _Archero.Develop.Runtime.Utilities.Conditions;
 using _Archero.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
 namespace _Archero.Develop.Runtime.Gameplay.Features.Attack
 {
+    public class IsProjectile : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
+    }
+
     public class StartAttackRequest : IEntityComponent
     {
         public ReactiveEvent Value;
@@ -30,12 +36,22 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.Attack
         public ReactiveVariable<float> Value;
     }
 
+    public class AttackProcessModifiedTime : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+
     public class AttackProcessCurrentTime : IEntityComponent
     {
         public ReactiveVariable<float> Value;
     }
 
     public class AttackDelayTime : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+
+    public class AttackDelayModifiedTime : IEntityComponent
     {
         public ReactiveVariable<float> Value;
     }
@@ -55,6 +71,11 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.Attack
         public ReactiveVariable<float> Value;
     }
 
+    public class InstantShootingDirection : IEntityComponent
+    {
+        public InstantShootingDirectionArgs Value;
+    }
+
     public class ShootPoint : IEntityComponent
     {
         public Transform Value;
@@ -71,6 +92,11 @@ namespace _Archero.Develop.Runtime.Gameplay.Features.Attack
     }
     
     public class AttackCooldownInitialTime : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+
+    public class AttackCooldownModifiedTime : IEntityComponent
     {
         public ReactiveVariable<float> Value;
     }

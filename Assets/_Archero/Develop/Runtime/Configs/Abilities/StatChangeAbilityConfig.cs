@@ -30,5 +30,7 @@ namespace _Archero.Develop.Runtime.Configs.Abilities
             Multiply,
             Add
         }
+
+        public override int MaxLevel => 1;
     }
 }

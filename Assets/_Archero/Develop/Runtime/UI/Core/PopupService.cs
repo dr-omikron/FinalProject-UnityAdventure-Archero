@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using _Archero.Develop.Runtime.UI.Core.TestPopup;
 using _Archero.Develop.Runtime.UI.LevelMenuPopup;
+using _Archero.Develop.Runtime.UI.StatsUpgradePopup;
 using UnityEngine;
 
 namespace _Archero.Develop.Runtime.UI.Core
@@ -34,6 +35,18 @@ namespace _Archero.Develop.Runtime.UI.Core
         {
             LevelsMenuPopupView view = ViewsFactory.Create<LevelsMenuPopupView>(ViewIDs.LevelsMenuPopup, PopupLayer);
             LevelsMenuPopupPresenter popup = _presentersFactory.CreateLevelsMenuPresenter(view);
+
+            OnPopupCreated(popup, view);
+
+            return popup;
+        }
+
+        public StatsUpgradePopupPresenter OpenStatsUpgradePopup()
+        {
+            StatsUpgradePopupView view =
+                ViewsFactory.Create<StatsUpgradePopupView>(ViewIDs.StatsUpgradePopupView, PopupLayer);
+            
+            StatsUpgradePopupPresenter popup = _presentersFactory.CreateStatsUpgradePopupPresenter(view);
 
             OnPopupCreated(popup, view);
 

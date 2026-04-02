@@ -33,7 +33,11 @@ namespace _Archero.Develop.Runtime.UI.Gameplay
 
         public GameplayScreenPresenter CreateGameplayScreenPresenter(GameplayScreenView view)
         {
-            return new GameplayScreenPresenter(view, _container.Resolve<GameplayPresentersFactory>());
+            return new GameplayScreenPresenter(
+                view, 
+                this,
+                _container.Resolve<MainHeroHolderService>(),
+                _container.Resolve<ProjectPresenterFactory>());
         }
 
         public WinPopupPresenter CreateWinPopupPresenter(WinPopupView view)
@@ -75,9 +79,9 @@ namespace _Archero.Develop.Runtime.UI.Gameplay
         public SelectableAbilityPresenter CreateSelectableAbilityPresenter(
             AbilityConfig abilityConfig,
             SelectableAbilityView view,
-            Entity entity)
+            Entity entity, int level)
         {
-            return new SelectableAbilityPresenter(abilityConfig, view, _container.Resolve<AbilityFactory>(), entity);
+            return new SelectableAbilityPresenter(abilityConfig, view, _container.Resolve<AbilityFactory>(), entity, level);
         }
 
         public AbilitySelectPopupPresenter CreateAbilitySelectPopupPresenter(AbilitySelectPopupView view, Entity entity, int level)
